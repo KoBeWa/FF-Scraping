@@ -1,12 +1,14 @@
+# cookieString.py
+import os
 
-# Paste your cookie string here
-cookie_string = ""
+def parse_cookie_string(s: str):
+    jar = {}
+    for part in s.split(";"):
+        if "=" in part:
+            k, v = part.split("=", 1)
+            jar[k.strip()] = v.strip()
+    return jar
 
-# Dict to store cookies
-cookies = {}
-
-# Loop through each cookie
-for cookie in cookie_string.split('; '):
-    # Split cookie into name and value
-    cookie_parts = cookie.split('=')
-    cookies[cookie_parts[0]] = cookie_parts[1]
+# Erst Secret, sonst Fallback auf lokale Dev-Variable
+_cookie = os.getenv("COOKIE_STRING", "")
+cookies = parse_cookie_string(_cookie)
