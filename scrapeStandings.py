@@ -76,17 +76,61 @@ for i in range(leagueStartYear, leagueEndYear):
     page = requests.get('https://fantasy.nfl.com/league/' + leagueID + '/history/' + season + '/draftresults', cookies=cookies)
     soup = bs(page.text, 'html.parser')
 
-    # Parse the Draft results table
-    # Adds cols: 'DraftPosition'
-    round_1_ul = soup.find('h4', string='Round 1').find_next_sibling('ul')
-    round_1_li_elements = round_1_ul.find_all('li')
-    for row in round_1_li_elements:
-        draft_position = row.find('span', class_='count')
-        team_name = row.find('a', class_='teamName')
-        if draft_position and team_name:
-            for csv_row in csv_rows:
-                if csv_row[0] == team_name.text.strip():
-                    csv_row.append(draft_position.text.strip()[:-1])
+    # Parse the Draft results table (robust) – Adds col: 'DraftPosition'
+    # https://fantasy.nfl.com/league/<id>/history/<season>/draftresults
+    try:
+        url_draft = f"https://fantasy.nfl.com/league/{leagueID}/history/{season}/draftresults"
+        soup = get_soup(url_draft) if 'get_soup' in globals() else bs(requests.get(url_draft, headers=HEADERS, cookies=cookies, timeout=30).text, 'html.parser')
+    
+        # 1) Versuche "Round 1" Header tolerant zu finden
+        draft_h4 = None
+        for h in soup.find_all('h4'):
+            txt = (h.get_text(strip=True) or '').lower()
+            if txt.startswith('round 1') or txt == 'round 1':
+                draft_h4 = h
+                break
+    
+        round_1_ul = None
+        if draft_h4:
+            # Nächstes UL nach dem Header
+            round_1_ul = draft_h4.find_next(lambda tag: tag.name == 'ul' and tag.find('span', class_='count'))
+        else:
+            # 2) Fallback: irgendein UL, das Draft-Picks (span.count) enthält
+            for ul in soup.find_all('ul'):
+                if ul.find('span', class_='count') and ul.find('a', class_='teamName'):
+                    round_1_ul = ul
+                    break
+    
+        if round_1_ul:
+            for li in round_1_ul.find_all('li'):
+                draft_position = li.find('span', class_='count')
+                team_anchor = li.find('a', class_='teamName')
+                if draft_position and team_anchor:
+                    pos = draft_position.get_text(strip=True).rstrip(".#")
+                    team_name = team_anchor.get_text(strip=True)
+                    for csv_row in csv_rows:
+                        if csv_row[0] == team_name:
+                            while len(csv_row) < 9:  # bis Trades auffüllen
+                                csv_row.append("")
+                            # DraftPosition anhängen/setzen
+                            if len(csv_row) == 9:
+                                csv_row.append(pos)
+                            else:
+                                csv_row[9] = pos
+        else:
+            print(f"[{season}] Draft Round 1 nicht gefunden – Seite sieht anders aus / keine Daten. Skipping.")
+    
+    except Exception as e:
+        print(f"[{season}] Draft-Parsing Fehler: {e}")
+        # Dump HTML zur Analyse in Actions-Artifact
+        try:
+            os.makedirs("debug_html", exist_ok=True)
+            with open(f"debug_html/draft_{season}.html", "w", encoding="utf-8") as fh:
+                fh.write(str(soup))
+            print(f"[{season}] Draft HTML gedumpt nach debug_html/draft_{season}.html")
+        except Exception as _:
+            pass
+
                 
     # Write all to a csv file
     with open(standings_directory + season + '.csv', 'w', newline='') as f:
