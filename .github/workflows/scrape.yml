@@ -1,0 +1,36 @@
+name: Scrape Sleeper Gamecenter
+
+on:
+  workflow_dispatch:   # Manuell starten
+  schedule:
+    - cron: "0 9 * * TUE"  # jeden Dienstag 09:00 Uhr UTC (z. B. nach NFL-Wochenende)
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run Sleeper Gamecenter Scraper
+        env:
+          SLEEPER_LEAGUE_ID: ${{ secrets.SLEEPER_LEAGUE_ID }}
+          SEASON: "2025"
+        run: python scrapeSleeperGamecenter.py
+
+      - name: Commit & Push results
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/
+          git commit -m "Update gamecenter CSVs (week run)"
+          git push
