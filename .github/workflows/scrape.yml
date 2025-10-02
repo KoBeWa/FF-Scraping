@@ -24,7 +24,7 @@ jobs:
       - name: Run Sleeper Gamecenter Scraper
         env:
           SLEEPER_LEAGUE_ID: ${{ secrets.SLEEPER_LEAGUE_ID }}
-          SEASON: "2025"
+          SEASON: "2022"
         run: python scrapeSleeperGamecenter.py
 
       - name: Commit & Push results
