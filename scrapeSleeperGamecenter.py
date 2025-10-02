@@ -151,7 +151,10 @@ def main():
     players_db = get_players_cached()
 
     rid_to_owner, owner_to_name = owner_maps(users, rosters)
-    reg_weeks = week_count(league)
+    for week in range(1, 17):   # 1..16
+    week_data = get_matchups(LEAGUE_ID, week)
+    if not week_data:
+        continue
 
     season_dir = OUT_DIR / str(SEASON)
     season_dir.mkdir(parents=True, exist_ok=True)
