@@ -9,7 +9,7 @@ OUT_DIR = Path("./output")
 DATA_DIR = Path("./data")
 
 LEAGUE_ID = os.getenv("SLEEPER_LEAGUE_ID", "").strip()
-SEASON = int(os.getenv("SEASON", "2025"))
+SEASON = int(os.getenv("SEASON", "2022"))
 
 # -------------------------- API WRAPPER -------------------------- #
 def _get(url):
