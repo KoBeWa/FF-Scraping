@@ -26,14 +26,12 @@ def get_players_cached():
     cache = DATA_DIR / "sleeper_players.json"
     if cache.exists() and time.time() - cache.stat().st_mtime < 7*24*3600:
         return json.loads(cache.read_text(encoding="utf-8"))
-    # Große Datei (~5–10 MB)
-    players = _get(f"{BASE}/players/nfl")
+    players = _get(f"{BASE}/players/nfl")  # große JSON
     cache.write_text(json.dumps(players), encoding="utf-8")
     return players
 
 # -------------------------- HELPERS -------------------------- #
 def short_name(player):
-    """ 'Matt Ryan' -> 'M. Ryan' """
     if not player:
         return ""
     first = player.get("first_name") or ""
@@ -42,19 +40,14 @@ def short_name(player):
     return f"{first_initial}{last}".strip()
 
 def fmt_player(players_db, pid):
-    """ Format: 'M. Ryan QB - ATL' / 'Patriots DEF' / 'Justin Tucker K - BAL' """
     if not pid:
         return ""
     p = players_db.get(pid) or {}
     pos = p.get("position") or ""
     team = p.get("team") or p.get("metadata", {}).get("team_abbr") or ""
-    # Defense hat oft 'position' = 'DEF' und 'team' = 'NE', Name leer -> 'Patriots DEF'
     if pos == "DEF":
-        # Franchise Nickname fallback
         nick = p.get("full_name") or p.get("last_name") or team or "DEF"
-        # Viele DEFs heißen in Sleeper z.B. 'Patriots'
-        name = f"{nick} DEF"
-        return name
+        return f"{nick} DEF"
     name = short_name(p) if (p.get("first_name") or p.get("last_name")) else (p.get("full_name") or pid)
     suffix_team = f" - {team}" if team else ""
     return f"{name} {pos}{suffix_team}".strip()
@@ -74,26 +67,14 @@ def owner_maps(users, rosters):
         owner_to_name[u["user_id"]] = team_name or display
     return rid_to_owner, owner_to_name
 
-def week_count(league):
-    # Regular Season endet in Woche vor playoff_week_start
-    pws = league.get("settings", {}).get("playoff_week_start")
-    if pws:
-        return int(pws) - 1
-    # Fallback: 14 Wochen Regular Season
-    return 14
-
 # --------------------- SLOT MAPPING (Classic) --------------------- #
-# Wir erzwingen die Ausgabe-Slots wie gewünscht, unabhängig von Liga-Settings.
 PRIMARY_ORDER = ["QB", "RB", "RB", "WR", "WR", "TE", "FLEX", "K", "DEF"]
-BENCH_SLOTS = 7  # BN x7
+BENCH_SLOTS = 7
 
 def assign_starters_to_slots(players_db, starters, starters_points):
-    """Verteilt Starter auf fixe Slots. FLEX akzeptiert WR/RB/TE (Sleeper 'FLEX', 'W/R/T')."""
-    # Kandidaten pro Position
     qb = []; rb = []; wr = []; te = []; k = []; dst = []; flex_pool = []
     used = set()
 
-    # Baue zuerst Rohlisten
     for pid in starters:
         pos = (players_db.get(pid, {}) or {}).get("position")
         if pos == "QB": qb.append(pid)
@@ -103,16 +84,13 @@ def assign_starters_to_slots(players_db, starters, starters_points):
         elif pos == "K": k.append(pid)
         elif pos == "DEF": dst.append(pid)
         else:
-            # ignorieren (IDP etc.)
             pass
 
-    # Sortiere innerhalb jeder Pos nach Punkten (desc), damit „beste“ zuerst zugeordnet wird
     keypts = lambda pid: -points_for(starters_points, pid)
-    qb.sort(key=keypts); rb.sort(key=keypts); wr.sort(key=keypts); te.sort(key=keypts); k.sort(key=keypts); dst.sort(key=keypts)
-    flex_pool.sort(key=keypts)
+    for lst in (qb, rb, wr, te, k, dst, flex_pool):
+        lst.sort(key=keypts)
 
     slots = {"QB": None, "RB": [None, None], "WR": [None, None], "TE": None, "FLEX": None, "K": None, "DEF": None}
-
     slots["QB"] = qb[0] if qb else None
     slots["RB"][0] = rb[0] if len(rb) > 0 else None
     slots["RB"][1] = rb[1] if len(rb) > 1 else None
@@ -122,13 +100,11 @@ def assign_starters_to_slots(players_db, starters, starters_points):
     slots["K"] = k[0] if k else None
     slots["DEF"] = dst[0] if dst else None
 
-    # Merk dir bereits gesetzte IDs, damit FLEX keinen Duplikat nimmt
     for x in [slots["QB"], slots["TE"], slots["K"], slots["DEF"]]:
         if x: used.add(x)
     for x in slots["RB"] + slots["WR"]:
         if x: used.add(x)
 
-    # FLEX = beste aus RB/WR/TE, die noch nicht benutzt wurde
     for pid in flex_pool:
         if pid not in used:
             slots["FLEX"] = pid
@@ -149,37 +125,34 @@ def main():
     users = get_league_users(LEAGUE_ID)
     rosters = get_league_rosters(LEAGUE_ID)
     players_db = get_players_cached()
-
     rid_to_owner, owner_to_name = owner_maps(users, rosters)
-    for week in range(1, 17):   # 1..16
-    week_data = get_matchups(LEAGUE_ID, week)
-    if not week_data:
-        continue
 
     season_dir = OUT_DIR / str(SEASON)
     season_dir.mkdir(parents=True, exist_ok=True)
 
-    # Für jede Woche: Matchups laden, Datensätze bauen, ranken, CSV schreiben
-    for week in range(1, reg_weeks + 1):
+    # Wochenlogik: gehe weiter bis 2 leere Wochen in Folge (Cap 18)
+    week = 1
+    empty_streak = 0
+    MAX_WEEK = 18
+
+    while week <= MAX_WEEK and empty_streak < 2:
         week_data = get_matchups(LEAGUE_ID, week)
         if not week_data:
-            # Leere Woche (bye pre-season etc.)
+            empty_streak += 1
+            week += 1
             continue
+        empty_streak = 0
 
         # Gruppieren nach matchup_id
         by_mid = defaultdict(list)
         for t in week_data:
             by_mid[t.get("matchup_id")].append(t)
 
-        # Baue Zeilen und sammle Totals für Ranking
         rows = []
         totals = []
-
-        # Hilfs-Maps für Gegner-Info
         team_total_by_roster = {}
         team_owner_by_roster = {}
 
-        # Erstmal pro Team Datensatz ohne Opponent-Felder erstellen
         for teams in by_mid.values():
             for entry in teams:
                 roster_id = entry["roster_id"]
@@ -189,39 +162,32 @@ def main():
                 starters = entry.get("starters") or []
                 players_all = entry.get("players") or []
                 players_points = entry.get("players_points") or {}
-                starters_points = entry.get("starters_points") or {}  # vorhanden in Sleeper; fallback sonst unten
+                starters_points = entry.get("starters_points") or {}
 
-                # Fallback: wenn starters_points fehlt, rechne aus players_points
                 if not starters_points and players_points and starters:
                     starters_points = {pid: players_points.get(pid, 0.0) for pid in starters}
 
-                # Starters in fixe Slots mappen
                 slots = assign_starters_to_slots(players_db, starters, starters_points)
 
-                # Punkte je Slot
                 def p(pid): return round(points_for(players_points, pid), 2) if pid else ""
 
-                # Bank (max 7, nach Punkten sortiert desc)
                 bench = bench_list(players_all, starters)
                 bench.sort(key=lambda pid: -points_for(players_points, pid))
-                bench = bench[:7]
+                bench = bench[:BENCH_SLOTS]
                 bench_pairs = []
-                for i in range(7):
+                for i in range(BENCH_SLOTS):
                     pid = bench[i] if i < len(bench) else None
                     bench_pairs.append((fmt_player(players_db, pid), p(pid)))
 
-                # Total (Sleeper liefert auch 'points' auf entry)
                 total = float(entry.get("points", sum(points_for(players_points, pid) for pid in starters)))
                 total = round(total, 2)
 
-                # Merker für Opponent
                 team_total_by_roster[roster_id] = total
                 team_owner_by_roster[roster_id] = owner
 
-                # Baue die Zeile ohne Opponent (füllen wir später)
                 row = [
                     owner,  # Owner
-                    "",     # Rank (füllen wir später)
+                    "",     # Rank
                     fmt_player(players_db, slots["QB"]), p(slots["QB"]),
                     fmt_player(players_db, slots["RB"][0]), p(slots["RB"][0]),
                     fmt_player(players_db, slots["RB"][1]), p(slots["RB"][1]),
@@ -232,46 +198,37 @@ def main():
                     fmt_player(players_db, slots["K"]), p(slots["K"]),
                     fmt_player(players_db, slots["DEF"]), p(slots["DEF"]),
                 ]
-
-                # 7x Bench
                 for name, pts in bench_pairs:
                     row.extend([name, pts])
-
-                # Total, Opponent (später), Opponent Total (später)
                 row.extend([total, "", ""])
+
                 rows.append({"roster_id": roster_id, "matchup_id": entry.get("matchup_id"), "row": row, "total": total})
                 totals.append(total)
 
-        # Rank berechnen (1 = best). Gleichstände bekommen gleiche Rangnummer?
+        # Rank (1 = beste Total)
         sorted_totals = sorted(set(totals), reverse=True)
         total_to_rank = {t: (i + 1) for i, t in enumerate(sorted_totals)}
 
-        # Opponent-Felder füllen + Rank einsetzen
         for pack in rows:
             rid = pack["roster_id"]
             mid = pack["matchup_id"]
             row = pack["row"]
             total = pack["total"]
 
-            # Rank in Spalte 2
             row[1] = total_to_rank.get(total, "")
 
-            # Gegner finden: anderes Team mit gleicher matchup_id
             opponents = [x for x in rows if x["matchup_id"] == mid and x["roster_id"] != rid]
             if opponents:
                 opp = opponents[0]
                 opp_owner = team_owner_by_roster.get(opp["roster_id"], "")
                 opp_total = team_total_by_roster.get(opp["roster_id"], "")
             else:
-                # Median/Bye o.ä.
                 opp_owner = "—"
                 opp_total = ""
 
-            # Opponent am Ende: vorletzte = Opponent, letzte = Opponent Total
             row[-2] = opp_owner
             row[-1] = opp_total
 
-        # CSV schreiben
         header = [
             "Owner","Rank",
             "QB","Points","RB","Points","RB","Points","WR","Points","WR","Points","TE","Points",
@@ -285,8 +242,9 @@ def main():
             w.writerow(header)
             for pack in rows:
                 w.writerow(pack["row"])
-
         print(f"✓ Geschrieben: {out_path}")
+
+        week += 1
 
 if __name__ == "__main__":
     main()
