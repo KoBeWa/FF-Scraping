@@ -1,9 +1,9 @@
-Team,W,L,T,PF,PA,Diff
-Los Cheezos Ritzos,11,3,0,1455.7,1288.62,167.08
-Weizen Express,10,4,0,1686.92,1346.9,340.02
-Show Me Your TDs,9,5,0,1471.08,1337.24,133.84
-oG United,8,6,0,1513.02,1452.82,60.2
-Snatchville Lubricators,6,8,0,1258.12,1418.76,-160.64
-SimonFuhr237,4,10,0,1439.32,1605.1,-165.78
-Juschka,4,10,0,1281.68,1420.94,-139.26
-Suckme Mourdock Network,4,10,0,1234.14,1469.6,-235.46
+TeamName	RegularSeasonRank	Record	PointsFor	PointsAgainst	PlayoffRank	ManagerName	Moves	Trades	DraftPosition
+Los Cheezos Ritzos	1	12-4-0	1641,46	1475,50	1	LosSausages	26	5	
+Weizen Express	2	11-5-0	1917,02	1561,30	2	ShamH	65	5	8
+oG United	3	10-6-0	1760,44	1653,78	1	Jottage	41	5	
+Show Me Your TDs	4	9-7-0	1624,94	1552,14	4	theBIGLebronski	41	5	
+Snatchville Lubricators	5	8-8-0	1449,92	1556,68	8	kesso	16	5	
+SimonFuhr237	6	5-11-0	1626,32	1790,60	6	SimonFuhr237	24	5	
+Juschka	7	5-11-0	1442,62	1613,98	7	Juschka	43	5	
+Suckme Mourdock Network	8	4-12-0	1396,62	1655,36	5	lancemourdock	25	5	
