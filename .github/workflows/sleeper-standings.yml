@@ -1,0 +1,39 @@
+name: Scrape Sleeper Standings (Manual Season)
+
+on:
+  workflow_dispatch:
+    inputs:
+      season:
+        description: "Season (z.B. 2022)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  standings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install requests
+
+      - name: Run standings scraper
+        env:
+          SLEEPER_LEAGUE_ID: ${{ secrets.SLEEPER_LEAGUE_ID }}
+          SEASON: ${{ inputs.season }}   # leer -> dein Script kann aus league.season ableiten
+        run: python scrapeSleeperStandings.py
+
+      - name: Commit & push output
+        run: |
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/
+          git commit -m "Update standings (manual run)" || echo "No changes to commit"
+          git push
