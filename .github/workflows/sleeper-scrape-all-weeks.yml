@@ -1,0 +1,50 @@
+# .github/workflows/sleeper-scrape-all-weeks.yml
+name: Sleeper – Full Season (W1–16 + Standings)
+
+on:
+  workflow_dispatch:
+    inputs:
+      season:
+        description: "Season (z.B. 2022). Leer lassen = league.season verwenden"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Dependencies
+        run: pip install requests
+
+      - name: Gamecenter (W1–16 in einem Run)
+        env:
+          SLEEPER_LEAGUE_ID: ${{ secrets.SLEEPER_LEAGUE_ID }}
+          SEASON: ${{ inputs.season }}
+        run: python scrapeSleeperGamecenter.py
+
+      - name: Standings (Regular 1–14 + Playoffs)
+        env:
+          SLEEPER_LEAGUE_ID: ${{ secrets.SLEEPER_LEAGUE_ID }}
+          SEASON: ${{ inputs.season }}
+        run: python scrapeSleeperStandings.py
+
+      - name: Commit & Push
+        run: |
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/
+          git commit -m "Full season export (gamecenter W1–16 + standings)" || echo "No changes"
+          git push
