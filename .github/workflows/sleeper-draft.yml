@@ -16,7 +16,7 @@ jobs:
       - name: Run draft scraper
         env:
           SLEEPER_LEAGUE_ID: ${{ secrets.SLEEPER_LEAGUE_ID }}
-          SEASON: "2022"   # oder leer lassen -> Script liest league.season
+          SEASON: "2025"   # oder leer lassen -> Script liest league.season
         run: python scrapeSleeperDraft.py
       - name: Commit & push
         run: |
