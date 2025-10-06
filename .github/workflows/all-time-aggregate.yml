@@ -1,0 +1,23 @@
+# .github/workflows/all-time-aggregate.yml
+name: Build Aggregated Standings (All-Time)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aggregate all seasons
+        run: python aggregate_managers_all_time.py
+      - name: Commit & Push
+        run: |
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/
+          git commit -m "Update aggregated standings (all-time)" || echo "No changes"
+          git push
