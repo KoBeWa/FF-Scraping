@@ -1,0 +1,121 @@
+Round	Overall	PickInRound	TeamName	ManagerName	OriginalSlot	Player	Pos	NFLTeam
+1	1	1	Promille Boords	Julian	1	Marshawn Lynch	RB	SEA
+1	2	2	WhoDatNation	Marvin	2	Eddie Lacy	RB	GB
+1	3	3	Fetti EV	Benjamin	3	Odell Beckham	WR	NYG
+1	4	4	colin's edelmaenner	Tommy	4	Adrian Peterson	RB	MIN
+1	5	5	Kessinho10	marco	5	Le'Veon Bell	RB	PIT
+1	6	6	Amari and Dorial GmbH	Simon	6	Russell Wilson	QB	SEA
+1	7	7	Die Punter	Matthias	7	Rob Gronkowski	TE	NE
+1	8	8	oG United	Erik	8	Jamaal Charles	RB	KC
+2	9	1	oG United	Erik	8	Antonio Brown	WR	PIT
+2	10	2	Die Punter	Matthias	7	Arian Foster	RB	HOU
+2	11	3	Amari and Dorial GmbH	Simon	6	Matt Forte	RB	CHI
+2	12	4	Kessinho10	marco	5	Jeremy Hill	RB	CIN
+2	13	5	colin's edelmaenner	Tommy	4	Dez Bryant	WR	DAL
+2	14	6	Fetti EV	Benjamin	3	LeSean McCoy	RB	BUF
+2	15	7	WhoDatNation	Marvin	2	Calvin Johnson	WR	DET
+2	16	8	Promille Boords	Julian	1	Demaryius Thomas	WR	DEN
+3	17	1	Promille Boords	Julian	1	Jordy Nelson	WR	GB
+3	18	2	WhoDatNation	Marvin	2	Aaron Rodgers	QB	GB
+3	19	3	Fetti EV	Benjamin	3	C.J. Anderson	RB	DEN
+3	20	4	colin's edelmaenner	Tommy	4	Andrew Luck	QB	IND
+3	21	5	Kessinho10	marco	5	Julio Jones	WR	ATL
+3	22	6	Amari and Dorial GmbH	Simon	6	A.J. Green	WR	CIN
+3	23	7	Die Punter	Matthias	7	Randall Cobb	WR	GB
+3	24	8	oG United	Erik	8	DeMarco Murray	RB	PHI
+4	25	1	oG United	Erik	8	T.Y. Hilton	WR	IND
+4	26	2	Die Punter	Matthias	7	Justin Forsett	RB	BAL
+4	27	3	Amari and Dorial GmbH	Simon	6	Amari Cooper	WR	LV
+4	28	4	Kessinho10	marco	5	Ben Roethlisberger	QB	PIT
+4	29	5	colin's edelmaenner	Tommy	4	Alshon Jeffery	WR	CHI
+4	30	6	Fetti EV	Benjamin	3	DeAndre Hopkins	WR	HOU
+4	31	7	WhoDatNation	Marvin	2	Alfred Morris	RB	WAS
+4	32	8	Promille Boords	Julian	1	Mark Ingram	RB	NO
+5	33	1	Promille Boords	Julian	1	Drew Brees	QB	NO
+5	34	2	WhoDatNation	Marvin	2	Jimmy Graham	TE	SEA
+5	35	3	Fetti EV	Benjamin	3	Peyton Manning	QB	DEN
+5	36	4	colin's edelmaenner	Tommy	4	LeGarrette Blount	RB	NE
+5	37	5	Kessinho10	marco	5	Greg Olsen	TE	CAR
+5	38	6	Amari and Dorial GmbH	Simon	6	Lamar Miller	RB	MIA
+5	39	7	Die Punter	Matthias	7	Melvin Gordon	RB	LAC
+5	40	8	oG United	Erik	8	Tony Romo	QB	DAL
+6	41	1	oG United	Erik	8	Travis Kelce	TE	KC
+6	42	2	Die Punter	Matthias	7	Ryan Tannehill	QB	MIA
+6	43	3	Amari and Dorial GmbH	Simon	6	Dorial Green-Beckham	WR	TEN
+6	44	4	Kessinho10	marco	5	Emmanuel Sanders	WR	DEN
+6	45	5	colin's edelmaenner	Tommy	4	Julius Thomas	TE	JAC
+6	46	6	Fetti EV	Benjamin	3	Antonio Gates	TE	LAC
+6	47	7	WhoDatNation	Marvin	2	Brandin Cooks	WR	NO
+6	48	8	Promille Boords	Julian	1	Jordan Matthews	WR	PHI
+7	49	1	Promille Boords	Julian	1	Coby Fleener	TE	IND
+7	50	2	WhoDatNation	Marvin	2	Frank Gore	RB	IND
+7	51	3	Fetti EV	Benjamin	3	DeSean Jackson	WR	WAS
+7	52	4	colin's edelmaenner	Tommy	4	Sammy Watkins	WR	BUF
+7	53	5	Kessinho10	marco	5	Darren McFadden	RB	DAL
+7	54	6	Amari and Dorial GmbH	Simon	6	Martellus Bennett	TE	CHI
+7	55	7	Die Punter	Matthias	7	Nelson Agholor	WR	PHI
+7	56	8	oG United	Erik	8	Rashad Jennings	RB	NYG
+8	57	1	oG United	Erik	8	Stephen Gostkowski	K	NE
+8	58	2	Die Punter	Matthias	7	Houston Texans	DEF	HOU
+8	59	3	Amari and Dorial GmbH	Simon	6	Seattle Seahawks	DEF	SEA
+8	60	4	Kessinho10	marco	5	Andre Ellington	RB	ARI
+8	61	5	colin's edelmaenner	Tommy	4	Buffalo Bills	DEF	BUF
+8	62	6	Fetti EV	Benjamin	3	Joique Bell	RB	DET
+8	63	7	WhoDatNation	Marvin	2	Jarvis Landry	WR	MIA
+8	64	8	Promille Boords	Julian	1	Green Bay Packers	DEF	GB
+9	65	1	Promille Boords	Julian	1	Kelvin Benjamin	WR	CAR
+9	66	2	WhoDatNation	Marvin	2	C.J. Spiller	RB	NO
+9	67	3	Fetti EV	Benjamin	3	Dwayne Allen	TE	IND
+9	68	4	colin's edelmaenner	Tommy	4	Julian Edelman	WR	NE
+9	69	5	Kessinho10	marco	5	Brandon LaFell	WR	NE
+9	70	6	Amari and Dorial GmbH	Simon	6	Adam Vinatieri	K	IND
+9	71	7	Die Punter	Matthias	7	Jeremy Maclin	WR	KC
+9	72	8	oG United	Erik	8	Philadelphia Eagles	DEF	PHI
+10	73	1	oG United	Erik	8	Mike Evans	WR	TB
+10	74	2	Die Punter	Matthias	7	Jonathan Stewart	RB	CAR
+10	75	3	Amari and Dorial GmbH	Simon	6	Matt Ryan	QB	ATL
+10	76	4	Kessinho10	marco	5	Miami Dolphins	DEF	MIA
+10	77	5	colin's edelmaenner	Tommy	4	Carlos Hyde	RB	SF
+10	78	6	Fetti EV	Benjamin	3	St. Louis Rams	DEF	STL
+10	79	7	WhoDatNation	Marvin	2	Arizona Cardinals	DEF	ARI
+10	80	8	Promille Boords	Julian	1	Torrey Smith	WR	SF
+11	81	1	Promille Boords	Julian	1	Chris Ivory	RB	NYJ
+11	82	2	WhoDatNation	Marvin	2	Cam Newton	QB	CAR
+11	83	3	Fetti EV	Benjamin	3	Isaiah Crowell	RB	CLE
+11	84	4	colin's edelmaenner	Tommy	4	Pierre Garcon	WR	WAS
+11	85	5	Kessinho10	marco	5	Tom Brady	QB	NE
+11	86	6	Amari and Dorial GmbH	Simon	6	Latavius Murray	RB	LV
+11	87	7	Die Punter	Matthias	7	Andre Johnson	WR	IND
+11	88	8	oG United	Erik	8	Philip Rivers	QB	LAC
+12	89	1	oG United	Erik	8	Giovani Bernard	RB	CIN
+12	90	2	Die Punter	Matthias	7	Mason Crosby	K	GB
+12	91	3	Amari and Dorial GmbH	Simon	6	Cody Parkey	K	PHI
+12	92	4	Kessinho10	marco	5	Kevin White	WR	CHI
+12	93	5	colin's edelmaenner	Tommy	4	Steven Hauschka	K	SEA
+12	94	6	Fetti EV	Benjamin	3	Matthew Stafford	QB	DET
+12	95	7	WhoDatNation	Marvin	2	Dan Bailey	K	DAL
+12	96	8	Promille Boords	Julian	1	Ryan Mathews	RB	PHI
+13	97	1	Promille Boords	Julian	1	Steve Smith	WR	BAL
+13	98	2	WhoDatNation	Marvin	2	Charles Johnson	WR	MIN
+13	99	3	Fetti EV	Benjamin	3	Delanie Walker	TE	TEN
+13	100	4	colin's edelmaenner	Tommy	4	Marcus Mariota	QB	TEN
+13	101	5	Kessinho10	marco	5	Matt Bryant	K	ATL
+13	102	6	Amari and Dorial GmbH	Simon	6	Zach Ertz	TE	PHI
+13	103	7	Die Punter	Matthias	7	Golden Tate	WR	DET
+13	104	8	oG United	Erik	8	Baltimore Ravens	DEF	BAL
+14	105	1	oG United	Erik	8	Jordan Cameron	TE	MIA
+14	106	2	Die Punter	Matthias	7	Colin Kaepernick	QB	SF
+14	107	3	Amari and Dorial GmbH	Simon	6	New England Patriots	DEF	NE
+14	108	4	Kessinho10	marco	5	Indianapolis Colts	DEF	IND
+14	109	5	colin's edelmaenner	Tommy	4	San Francisco 49ers	DEF	SF
+14	110	6	Fetti EV	Benjamin	3	Keenan Allen	WR	LAC
+14	111	7	WhoDatNation	Marvin	2	Brandon Marshall	WR	NYJ
+14	112	8	Promille Boords	Julian	1	Vernon Davis	TE	DEN
+15	113	1	Promille Boords	Julian	1	Randy Bullock	K	NYJ
+15	114	2	WhoDatNation	Marvin	2	New Orleans Saints	DEF	NO
+15	115	3	Fetti EV	Benjamin	3	Justin Tucker	K	BAL
+15	116	4	colin's edelmaenner	Tommy	4	T.J. Yeldon	RB	JAC
+15	117	5	Kessinho10	marco	5	Todd Gurley	RB	STL
+15	118	6	Amari and Dorial GmbH	Simon	6	Joseph Randle	RB	-
+15	119	7	Die Punter	Matthias	7	Andre Williams	RB	NYG
+15	120	8	oG United	Erik	8	Breshad Perriman	WR	BAL
