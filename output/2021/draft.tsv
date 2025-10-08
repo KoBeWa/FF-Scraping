@@ -1,121 +1,122 @@
-Overall	PickInRound	TeamName	ManagerName	OriginalSlot	Player	Pos	NFLTeam
-1	1	1	oGUnited	Erik	1	Christian McCaffrey	RB	CAR
-1	2	2	Brick Squad	Benjamin	2	Dalvin Cook	RB	MIN
-1	3	3	Snatchville Lubricators	Marco	3	Derrick Henry	RB	TEN
-1	4	4	LightsKamaraAction	Tommy	4	Alvin Kamara	RB	NO
-1	5	5	WhoDatNation	Marvin	5	Jonathan Taylor	RB	IND
-1	6	6	SpVgg Bierzipfel	Matthias	6	Saquon Barkley	RB	NYG
-1	7	7	Obi-Wan Mahomie	Simon	7	Nick Chubb	RB	CLE
-1	8	8	Promille Boords	Julian	8	Aaron Jones	RB	GB
-2	9	1	Promille Boords	Julian	1	Stefon Diggs	WR	BUF
-2	10	2	Obi-Wan Mahomie	Simon	2	Calvin Ridley	WR	ATL
-2	11	3	SpVgg Bierzipfel	Matthias	3	Tyreek Hill	WR	MIA
-2	12	4	WhoDatNation	Marvin	4	Travis Kelce	TE	KC
-2	13	5	LightsKamaraAction	Tommy	5	DeAndre Hopkins	WR	ARI
-2	14	6	Snatchville Lubricators	Marco	6	Cam Akers	RB	LA
-2	15	7	Brick Squad	Benjamin	7	Ezekiel Elliott	RB	DAL
-2	16	8	oG United	Erik	8	Antonio Gibson	RB	WAS
-3	17	1	oG United	Erik	1	Najee Harris	RB	PIT
-3	18	2	Brick Squad	Benjamin	2	Davante Adams	WR	LV
-3	19	3	Snatchville Lubricators	Marco	3	DK Metcalf	WR	SEA
-3	20	4	LightsKamaraAction	Tommy	4	George Kittle	TE	SF
-3	21	5	WhoDatNation	Marvin	5	A.J. Brown	WR	PHI
-3	22	6	SpVgg Bierzipfel	Matthias	6	Miles Sanders	RB	PHI
-3	23	7	Obi-Wan Mahomie	Simon	7	Patrick Mahomes	QB	KC
-3	24	8	Promille Boords	Julian	8	Lamar Jackson	QB	BAL
-4	25	1	Promille Boords	Julian	1	Austin Ekeler	RB	LAC
-4	26	2	Obi-Wan Mahomie	Simon	2	J.K. Dobbins	RB	BAL
-4	27	3	SpVgg Bierzipfel	Matthias	3	Josh Jacobs	RB	LV
-4	28	4	WhoDatNation	Marvin	4	Joe Mixon	RB	CIN
-4	29	5	LightsKamaraAction	Tommy	5	Mike Evans	WR	TB
-4	30	6	Snatchville Lubricators	Marco	6	Darren Waller	TE	LV
-4	31	7	Brick Squad	Benjamin	7	Justin Jefferson	WR	MIN
-4	32	8	oG United	Erik	8	Keenan Allen	WR	LAC
-5	33	1	oG United	Erik	1	Michael Thomas	WR	NO
-5	34	2	Brick Squad	Benjamin	2	Allen Robinson	WR	LA
-5	35	3	Snatchville Lubricators	Marco	3	Terry McLaurin	WR	WAS
-5	36	4	LightsKamaraAction	Tommy	4	Julio Jones	WR	TEN
-5	37	5	WhoDatNation	Marvin	5	Josh Allen	QB	BUF
-5	38	6	SpVgg Bierzipfel	Matthias	6	D’Andre Swift	RB	DET
-5	39	7	Obi-Wan Mahomie	Simon	7	CeeDee Lamb	WR	DAL
-5	40	8	Promille Boords	Julian	8	Chris Carson	RB	SEA
-6	41	1	Promille Boords	Julian	1	Curtis Samuel	WR	WAS
-6	42	2	Obi-Wan Mahomie	Simon	2	Mark Andrews	TE	BAL
-6	43	3	SpVgg Bierzipfel	Matthias	3	Amari Cooper	WR	CLE
-6	44	4	WhoDatNation	Marvin	4	Clyde Edwards-Helaire	RB	KC
-6	45	5	LightsKamaraAction	Tommy	5	David Montgomery	RB	CHI
-6	46	6	Snatchville Lubricators	Marco	6	Kyler Murray	QB	ARI
-6	47	7	Brick Squad	Benjamin	7	Chris Godwin	WR	TB
-6	48	8	oG United	Erik	8	Robert Woods	WR	TEN
-7	49	1	oG United	Erik	1	T.J. Hockenson	TE	DET
-7	50	2	Brick Squad	Benjamin	2	Kyle Pitts	TE	ATL
-7	51	3	Snatchville Lubricators	Marco	3	Cooper Kupp	WR	LAC
-7	52	4	LightsKamaraAction	Tommy	4	D.J. Moore	WR	CAR
-7	53	5	WhoDatNation	Marvin	5	Kenny Golladay	WR	NYG
-7	54	6	SpVgg Bierzipfel	Matthias	6	Adam Thielen	WR	MIN
-7	55	7	Obi-Wan Mahomie	Simon	7	Carolina Panthers	DEF	CAR
-7	56	8	Promille Boords	Julian	8	Mitchell Trubisky	QB	PIT
-8	57	1	Promille Boords	Julian	1	Andy Dalton	QB	NO
-8	58	2	Obi-Wan Mahomie	Simon	2	Raheem Mostert	RB	MIA
-8	59	3	SpVgg Bierzipfel	Matthias	3	Aaron Rodgers	QB	GB
-8	60	4	WhoDatNation	Marvin	4	Myles Gaskin	RB	MIA
-8	61	5	LightsKamaraAction	Tommy	5	Chase Claypool	WR	PIT
-8	62	6	Snatchville Lubricators	Marco	6	Tee Higgins	WR	CIN
-8	63	7	Brick Squad	Benjamin	7	Dak Prescott	QB	DAL
-8	64	8	oG United	Erik	8	Mike Davis	RB	ATL
-9	65	1	oG United	Erik	1	Brandon Aiyuk	WR	SF
-9	66	2	Brick Squad	Benjamin	2	Kareem Hunt	RB	CLE
-9	67	3	Snatchville Lubricators	Marco	3	Damien Harris	RB	NE
-9	68	4	LightsKamaraAction	Tommy	4	Justin Herbert	QB	LAC
-9	69	5	WhoDatNation	Marvin	5	Travis Etienne	RB	JAX
-9	70	6	SpVgg Bierzipfel	Matthias	6	Tyler Lockett	WR	SEA
-9	71	7	Obi-Wan Mahomie	Simon	7	Odell Beckham Jr.	WR	LA
-9	72	8	Promille Boords	Julian	8	Gardner Minshew	QB	PHI
-10	73	1	Promille Boords	Julian	1	Ka’imi Fairbairn	K	HOU
-10	74	2	Obi-Wan Mahomie	Simon	2	Courtland Sutton	WR	DEN
-10	75	3	SpVgg Bierzipfel	Matthias	3	Ja'Marr Chase	WR	CIN
-10	76	4	WhoDatNation	Marvin	4	JuJu Smith-Schuster	WR	KC
-10	77	5	LightsKamaraAction	Tommy	5	Jerry Jeudy	WR	DEN
-10	78	6	Snatchville Lubricators	Marco	6	Will Fuller	WR	MIA
-10	79	7	Brick Squad	Benjamin	7	Javonte Williams	RB	DEN
-10	80	8	oG United	Erik	8	Chase Edmonds	RB	MIA
-11	81	1	oG United	Erik	1	Brandin Cooks	WR	HOU
-11	82	2	Brick Squad	Benjamin	2	Ronald Jones	RB	KC
-11	83	3	Snatchville Lubricators	Marco	3	Robert Tonyan	TE	GB
-11	84	4	LightsKamaraAction	Tommy	4	James Robinson	RB	JAX
-11	85	5	WhoDatNation	Marvin	5	Wil Lutz	K	NO
-11	86	6	SpVgg Bierzipfel	Matthias	6	Rob Gronkowski	TE	TB
-11	87	7	Obi-Wan Mahomie	Simon	7	Deebo Samuel	WR	SF
-11	88	8	Promille Boords	Julian	8	Adrian Peterson	RB	SEA
-12	89	1	Promille Boords	Julian	1	Stephen Gostkowski	K	
-12	90	2	Obi-Wan Mahomie	Simon	2	Melvin Gordon	RB	DEN
-12	91	3	SpVgg Bierzipfel	Matthias	3	DeVonta Smith	WR	PHI
-12	92	4	WhoDatNation	Marvin	4	Baltimore Ravens	DEF	BAL
-12	93	5	LightsKamaraAction	Tommy	5	James Conner	RB	ARI
-12	94	6	Snatchville Lubricators	Marco	6	Justin Tucker	K	BAL
-12	95	7	Brick Squad	Benjamin	7	David Johnson	RB	HOU
-12	96	8	oG United	Erik	8	Zack Moss	RB	BUF
-13	97	1	oG United	Erik	1	Matthew Stafford	QB	LA
-13	98	2	Brick Squad	Benjamin	2	Ryan Tannehill	QB	TEN
-13	99	3	Snatchville Lubricators	Marco	3	Tony Pollard	RB	DAL
-13	100	4	LightsKamaraAction	Tommy	4	San Francisco 49ers	DEF	SF
-13	101	5	WhoDatNation	Marvin	5	Laviska Shenault Jr.	WR	JAX
-13	102	6	SpVgg Bierzipfel	Matthias	6	Harrison Butker	K	KC
-13	103	7	Obi-Wan Mahomie	Simon	7	Sam Ficken	K	TEN
-13	104	8	Promille Boords	Julian	8	Keelan Cole	WR	NYJ
-14	105	1	Promille Boords	Julian	1	Nick Folk	K	NE
-14	106	2	Obi-Wan Mahomie	Simon	2	Robby Anderson	WR	CAR
-14	107	3	SpVgg Bierzipfel	Matthias	3	Pittsburgh Steelers	DEF	PIT
-14	108	4	WhoDatNation	Marvin	4	Leonard Fournette	RB	TB
-14	109	5	LightsKamaraAction	Tommy	5	Trey Sermon	RB	SF
-14	110	6	Snatchville Lubricators	Marco	6	Noah Fant	TE	SEA
-14	111	7	Brick Squad	Benjamin	7	Michael Pittman	WR	IND
-14	112	8	oG United	Erik	8	Mike Williams	WR	LAC
-15	113	1	oG United	Erik	1	Gus Edwards	RB	BAL
-15	114	2	Brick Squad	Benjamin	2	Los Angeles Rams	DEF	LA
-15	115	3	Snatchville Lubricators	Marco	3	Tyler Higbee	TE	LA
-15	116	4	LightsKamaraAction	Tommy	4	Younghoe Koo	K	ATL
-15	117	5	WhoDatNation	Marvin	5	Jaylen Waddle	WR	MIA
-15	118	6	SpVgg Bierzipfel	Matthias	6	Tom Brady	QB	TB
-15	119	7	Obi-Wan Mahomie	Simon	7	Russell Wilson	QB	DEN
-15	120	8	Promille Boords	Julian	8	Graham Gano	K	NYG
+| Round | Overall | PickInRound | TeamName                | ManagerName | OriginalSlot | Player                | Pos | NFLTeam |
+| :---- | :------ | :---------- | :---------------------- | :---------- | :----------- | :-------------------- | :-- | :------ |
+| 1     | 1       | 1           | oG United               | Erik        | 1            | Christian McCaffrey   | RB  | CAR     |
+| 1     | 2       | 2           | Brick Squad             | Benjamin    | 2            | Dalvin Cook           | RB  | MIN     |
+| 1     | 3       | 3           | Snatchville Lubricators | Marco       | 3            | Derrick Henry         | RB  | TEN     |
+| 1     | 4       | 4           | LightsKamaraAction      | Tommy       | 4            | Alvin Kamara          | RB  | NO      |
+| 1     | 5       | 5           | WhoDatNation            | Marvin      | 5            | Jonathan Taylor       | RB  | IND     |
+| 1     | 6       | 6           | SpVgg Bierzipfel        | Matthias    | 6            | Saquon Barkley        | RB  | NYG     |
+| 1     | 7       | 7           | Obi-Wan Mahomie         | Simon       | 7            | Nick Chubb            | RB  | CLE     |
+| 1     | 8       | 8           | Promille Boords         | Julian      | 8            | Aaron Jones           | RB  | GB      |
+| 2     | 9       | 1           | Promille Boords         | Julian      | 1            | Stefon Diggs          | WR  | BUF     |
+| 2     | 10      | 2           | Obi-Wan Mahomie         | Simon       | 2            | Calvin Ridley         | WR  | ATL     |
+| 2     | 11      | 3           | SpVgg Bierzipfel        | Matthias    | 3            | Tyreek Hill           | WR  | MIA     |
+| 2     | 12      | 4           | WhoDatNation            | Marvin      | 4            | Travis Kelce          | TE  | KC      |
+| 2     | 13      | 5           | LightsKamaraAction      | Tommy       | 5            | DeAndre Hopkins       | WR  | ARI     |
+| 2     | 14      | 6           | Snatchville Lubricators | Marco       | 6            | Cam Akers             | RB  | LA      |
+| 2     | 15      | 7           | Brick Squad             | Benjamin    | 7            | Ezekiel Elliott       | RB  | DAL     |
+| 2     | 16      | 8           | oG United               | Erik        | 8            | Antonio Gibson        | RB  | WAS     |
+| 3     | 17      | 1           | oG United               | Erik        | 1            | Najee Harris          | RB  | PIT     |
+| 3     | 18      | 2           | Brick Squad             | Benjamin    | 2            | Davante Adams         | WR  | LV      |
+| 3     | 19      | 3           | Snatchville Lubricators | Marco       | 3            | DK Metcalf            | WR  | SEA     |
+| 3     | 20      | 4           | LightsKamaraAction      | Tommy       | 4            | George Kittle         | TE  | SF      |
+| 3     | 21      | 5           | WhoDatNation            | Marvin      | 5            | A.J. Brown            | WR  | PHI     |
+| 3     | 22      | 6           | SpVgg Bierzipfel        | Matthias    | 6            | Miles Sanders         | RB  | PHI     |
+| 3     | 23      | 7           | Obi-Wan Mahomie         | Simon       | 7            | Patrick Mahomes       | QB  | KC      |
+| 3     | 24      | 8           | Promille Boords         | Julian      | 8            | Lamar Jackson         | QB  | BAL     |
+| 4     | 25      | 1           | Promille Boords         | Julian      | 1            | Austin Ekeler         | RB  | LAC     |
+| 4     | 26      | 2           | Obi-Wan Mahomie         | Simon       | 2            | J.K. Dobbins          | RB  | BAL     |
+| 4     | 27      | 3           | SpVgg Bierzipfel        | Matthias    | 3            | Josh Jacobs           | RB  | LV      |
+| 4     | 28      | 4           | WhoDatNation            | Marvin      | 4            | Joe Mixon             | RB  | CIN     |
+| 4     | 29      | 5           | LightsKamaraAction      | Tommy       | 5            | Mike Evans            | WR  | TB      |
+| 4     | 30      | 6           | Snatchville Lubricators | Marco       | 6            | Darren Waller         | TE  | LV      |
+| 4     | 31      | 7           | Brick Squad             | Benjamin    | 7            | Justin Jefferson      | WR  | MIN     |
+| 4     | 32      | 8           | oG United               | Erik        | 8            | Keenan Allen          | WR  | LAC     |
+| 5     | 33      | 1           | oG United               | Erik        | 1            | Michael Thomas        | WR  | NO      |
+| 5     | 34      | 2           | Brick Squad             | Benjamin    | 2            | Allen Robinson        | WR  | LA      |
+| 5     | 35      | 3           | Snatchville Lubricators | Marco       | 3            | Terry McLaurin        | WR  | WAS     |
+| 5     | 36      | 4           | LightsKamaraAction      | Tommy       | 4            | Julio Jones           | WR  | TEN     |
+| 5     | 37      | 5           | WhoDatNation            | Marvin      | 5            | Josh Allen            | QB  | BUF     |
+| 5     | 38      | 6           | SpVgg Bierzipfel        | Matthias    | 6            | D’Andre Swift         | RB  | DET     |
+| 5     | 39      | 7           | Obi-Wan Mahomie         | Simon       | 7            | CeeDee Lamb           | WR  | DAL     |
+| 5     | 40      | 8           | Promille Boords         | Julian      | 8            | Chris Carson          | RB  | SEA     |
+| 6     | 41      | 1           | Promille Boords         | Julian      | 1            | Curtis Samuel         | WR  | WAS     |
+| 6     | 42      | 2           | Obi-Wan Mahomie         | Simon       | 2            | Mark Andrews          | TE  | BAL     |
+| 6     | 43      | 3           | SpVgg Bierzipfel        | Matthias    | 3            | Amari Cooper          | WR  | CLE     |
+| 6     | 44      | 4           | WhoDatNation            | Marvin      | 4            | Clyde Edwards-Helaire | RB  | KC      |
+| 6     | 45      | 5           | LightsKamaraAction      | Tommy       | 5            | David Montgomery      | RB  | CHI     |
+| 6     | 46      | 6           | Snatchville Lubricators | Marco       | 6            | Kyler Murray          | QB  | ARI     |
+| 6     | 47      | 7           | Brick Squad             | Benjamin    | 7            | Chris Godwin          | WR  | TB      |
+| 6     | 48      | 8           | oG United               | Erik        | 8            | Robert Woods          | WR  | TEN     |
+| 7     | 49      | 1           | oG United               | Erik        | 1            | T.J. Hockenson        | TE  | DET     |
+| 7     | 50      | 2           | Brick Squad             | Benjamin    | 2            | Kyle Pitts            | TE  | ATL     |
+| 7     | 51      | 3           | Snatchville Lubricators | Marco       | 3            | Cooper Kupp           | WR  | LAC     |
+| 7     | 52      | 4           | LightsKamaraAction      | Tommy       | 4            | D.J. Moore            | WR  | CAR     |
+| 7     | 53      | 5           | WhoDatNation            | Marvin      | 5            | Kenny Golladay        | WR  | NYG     |
+| 7     | 54      | 6           | SpVgg Bierzipfel        | Matthias    | 6            | Adam Thielen          | WR  | MIN     |
+| 7     | 55      | 7           | Obi-Wan Mahomie         | Simon       | 7            | Carolina Panthers     | DEF | CAR     |
+| 7     | 56      | 8           | Promille Boords         | Julian      | 8            | Mitchell Trubisky     | QB  | PIT     |
+| 8     | 57      | 1           | Promille Boords         | Julian      | 1            | Andy Dalton           | QB  | NO      |
+| 8     | 58      | 2           | Obi-Wan Mahomie         | Simon       | 2            | Raheem Mostert        | RB  | MIA     |
+| 8     | 59      | 3           | SpVgg Bierzipfel        | Matthias    | 3            | Aaron Rodgers         | QB  | GB      |
+| 8     | 60      | 4           | WhoDatNation            | Marvin      | 4            | Myles Gaskin          | RB  | MIA     |
+| 8     | 61      | 5           | LightsKamaraAction      | Tommy       | 5            | Chase Claypool        | WR  | PIT     |
+| 8     | 62      | 6           | Snatchville Lubricators | Marco       | 6            | Tee Higgins           | WR  | CIN     |
+| 8     | 63      | 7           | Brick Squad             | Benjamin    | 7            | Dak Prescott          | QB  | DAL     |
+| 8     | 64      | 8           | oG United               | Erik        | 8            | Mike Davis            | RB  | ATL     |
+| 9     | 65      | 1           | oG United               | Erik        | 1            | Brandon Aiyuk         | WR  | SF      |
+| 9     | 66      | 2           | Brick Squad             | Benjamin    | 2            | Kareem Hunt           | RB  | CLE     |
+| 9     | 67      | 3           | Snatchville Lubricators | Marco       | 3            | Damien Harris         | RB  | NE      |
+| 9     | 68      | 4           | LightsKamaraAction      | Tommy       | 4            | Justin Herbert        | QB  | LAC     |
+| 9     | 69      | 5           | WhoDatNation            | Marvin      | 5            | Travis Etienne        | RB  | JAX     |
+| 9     | 70      | 6           | SpVgg Bierzipfel        | Matthias    | 6            | Tyler Lockett         | WR  | SEA     |
+| 9     | 71      | 7           | Obi-Wan Mahomie         | Simon       | 7            | Odell Beckham Jr.     | WR  | LA      |
+| 9     | 72      | 8           | Promille Boords         | Julian      | 8            | Gardner Minshew       | QB  | PHI     |
+| 10    | 73      | 1           | Promille Boords         | Julian      | 1            | Ka’imi Fairbairn      | K   | HOU     |
+| 10    | 74      | 2           | Obi-Wan Mahomie         | Simon       | 2            | Courtland Sutton      | WR  | DEN     |
+| 10    | 75      | 3           | SpVgg Bierzipfel        | Matthias    | 3            | Ja'Marr Chase         | WR  | CIN     |
+| 10    | 76      | 4           | WhoDatNation            | Marvin      | 4            | JuJu Smith-Schuster   | WR  | KC      |
+| 10    | 77      | 5           | LightsKamaraAction      | Tommy       | 5            | Jerry Jeudy           | WR  | DEN     |
+| 10    | 78      | 6           | Snatchville Lubricators | Marco       | 6            | Will Fuller           | WR  | MIA     |
+| 10    | 79      | 7           | Brick Squad             | Benjamin    | 7            | Javonte Williams      | RB  | DEN     |
+| 10    | 80      | 8           | oG United               | Erik        | 8            | Chase Edmonds         | RB  | MIA     |
+| 11    | 81      | 1           | oG United               | Erik        | 1            | Brandin Cooks         | WR  | HOU     |
+| 11    | 82      | 2           | Brick Squad             | Benjamin    | 2            | Ronald Jones          | RB  | KC      |
+| 11    | 83      | 3           | Snatchville Lubricators | Marco       | 3            | Robert Tonyan         | TE  | GB      |
+| 11    | 84      | 4           | LightsKamaraAction      | Tommy       | 4            | James Robinson        | RB  | JAX     |
+| 11    | 85      | 5           | WhoDatNation            | Marvin      | 5            | Wil Lutz              | K   | NO      |
+| 11    | 86      | 6           | SpVgg Bierzipfel        | Matthias    | 6            | Rob Gronkowski        | TE  | TB      |
+| 11    | 87      | 7           | Obi-Wan Mahomie         | Simon       | 7            | Deebo Samuel          | WR  | SF      |
+| 11    | 88      | 8           | Promille Boords         | Julian      | 8            | Adrian Peterson       | RB  | SEA     |
+| 12    | 89      | 1           | Promille Boords         | Julian      | 1            | Stephen Gostkowski    | K   |         |
+| 12    | 90      | 2           | Obi-Wan Mahomie         | Simon       | 2            | Melvin Gordon         | RB  | DEN     |
+| 12    | 91      | 3           | SpVgg Bierzipfel        | Matthias    | 3            | DeVonta Smith         | WR  | PHI     |
+| 12    | 92      | 4           | WhoDatNation            | Marvin      | 4            | Baltimore Ravens      | DEF | BAL     |
+| 12    | 93      | 5           | LightsKamaraAction      | Tommy       | 5            | James Conner          | RB  | ARI     |
+| 12    | 94      | 6           | Snatchville Lubricators | Marco       | 6            | Justin Tucker         | K   | BAL     |
+| 12    | 95      | 7           | Brick Squad             | Benjamin    | 7            | David Johnson         | RB  | HOU     |
+| 12    | 96      | 8           | oG United               | Erik        | 8            | Zack Moss             | RB  | BUF     |
+| 13    | 97      | 1           | oG United               | Erik        | 1            | Matthew Stafford      | QB  | LA      |
+| 13    | 98      | 2           | Brick Squad             | Benjamin    | 2            | Ryan Tannehill        | QB  | TEN     |
+| 13    | 99      | 3           | Snatchville Lubricators | Marco       | 3            | Tony Pollard          | RB  | DAL     |
+| 13    | 100     | 4           | LightsKamaraAction      | Tommy       | 4            | San Francisco 49ers   | DEF | SF      |
+| 13    | 101     | 5           | WhoDatNation            | Marvin      | 5            | Laviska Shenault Jr.  | WR  | JAX     |
+| 13    | 102     | 6           | SpVgg Bierzipfel        | Matthias    | 6            | Harrison Butker       | K   | KC      |
+| 13    | 103     | 7           | Obi-Wan Mahomie         | Simon       | 7            | Sam Ficken            | K   | TEN     |
+| 13    | 104     | 8           | Promille Boords         | Julian      | 8            | Keelan Cole           | WR  | NYJ     |
+| 14    | 105     | 1           | Promille Boords         | Julian      | 1            | Nick Folk             | K   | NE      |
+| 14    | 106     | 2           | Obi-Wan Mahomie         | Simon       | 2            | Robby Anderson        | WR  | CAR     |
+| 14    | 107     | 3           | SpVgg Bierzipfel        | Matthias    | 3            | Pittsburgh Steelers   | DEF | PIT     |
+| 14    | 108     | 4           | WhoDatNation            | Marvin      | 4            | Leonard Fournette     | RB  | TB      |
+| 14    | 109     | 5           | LightsKamaraAction      | Tommy       | 5            | Trey Sermon           | RB  | SF      |
+| 14    | 110     | 6           | Snatchville Lubricators | Marco       | 6            | Noah Fant             | TE  | SEA     |
+| 14    | 111     | 7           | Brick Squad             | Benjamin    | 7            | Michael Pittman       | WR  | IND     |
+| 14    | 112     | 8           | oG United               | Erik        | 8            | Mike Williams         | WR  | LAC     |
+| 15    | 113     | 1           | oG United               | Erik        | 1            | Gus Edwards           | RB  | BAL     |
+| 15    | 114     | 2           | Brick Squad             | Benjamin    | 2            | Los Angeles Rams      | DEF | LA      |
+| 15    | 115     | 3           | Snatchville Lubricators | Marco       | 3            | Tyler Higbee          | TE  | LA      |
+| 15    | 116     | 4           | LightsKamaraAction      | Tommy       | 4            | Younghoe Koo          | K   | ATL     |
+| 15    | 117     | 5           | WhoDatNation            | Marvin      | 5            | Jaylen Waddle         | WR  | MIA     |
+| 15    | 118     | 6           | SpVgg Bierzipfel        | Matthias    | 6            | Tom Brady             | QB  | TB      |
+| 15    | 119     | 7           | Obi-Wan Mahomie         | Simon       | 7            | Russell Wilson        | QB  | DEN     |
+| 15    | 120     | 8           | Promille Boords         | Julian      | 8            | Graham Gano           | K   | NYG     |
