@@ -90,14 +90,21 @@ jobs:
             python scrapeSleeperDraftboards.py
           fi
 
-      - name: Upload outputs (output + debug)
+      - name: Upload outputs (CSV/TSV + Debug HTML)
+        if: always()  # lädt auch, wenn vorher ein Step fehlschlug
         uses: actions/upload-artifact@v4
         with:
-          name: draft-output
+          name: draft-output_${{ inputs.mode || 'nfl_drafts' }}_${{ github.run_number }}
+          # Nur wirklich relevante Dateien:
           path: |
-            output/**
-            debug/**
-          if-no-files-found: warn
+            output/**/*.csv
+            output/**/*.tsv
+            debug/**/*.html
+            debug/**/*.json
+          if-no-files-found: ignore   # kein Fehler, wenn ein Pattern leer ist
+          compression-level: 6
+          overwrite: true
+
 
             # Sleeper Drafts
             if [ -z "${SLEEPER_LEA_]()
