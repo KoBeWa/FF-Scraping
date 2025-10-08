@@ -24,7 +24,7 @@ jobs:
       LEAGUE_ID: "3082897"
       LEAGUE_START_YEAR: "2015"
       LEAGUE_END_YEAR: "2021"
-      # Secret mit kompletter Cookie:-Header-Zeile
+      # Secret mit kompletter Cookie:-Header-Zeile (Request-Header "Cookie:")
       NFL_COOKIE: ${{ secrets.NFL_COOKIE }}
 
     steps:
@@ -50,7 +50,10 @@ import os, sys
 print("NFL_COOKIE length:", len(os.getenv("NFL_COOKIE","")))
 if not os.getenv("LEAGUE_ID"):
     print("ERROR: LEAGUE_ID fehlt"); sys.exit(1)
-from cookieString import have_cookie
+try:
+    from cookieString import have_cookie
+except Exception as e:
+    print("ERROR: cookieString import fehlgeschlagen:", e); sys.exit(1)
 if not have_cookie():
     print("ERROR: Kein gültiger NFL_COOKIE gefunden (ENV NFL_COOKIE oder data/nfl_cookie.txt)"); sys.exit(2)
 print("OK: Cookie vorhanden")
@@ -60,24 +63,31 @@ PY
         run: |
           python - << 'PY'
 from cookieString import get_session
-import os, pathlib
+import os, pathlib, sys
 s = get_session()
 url = f"https://fantasy.nfl.com/league/{os.environ['LEAGUE_ID']}/history/2021/standings"
 r = s.get(url, timeout=30, allow_redirects=True)
 print("HTTP:", r.status_code, r.url)
 pathlib.Path("debug").mkdir(exist_ok=True)
 pathlib.Path("debug/first_page.html").write_text(r.text, encoding="utf-8")
-if "Sign In" in r.text or "signin" in r.text.lower():
-    raise SystemExit("Sieht nach Login-Seite aus → Cookie ungültig/abgelaufen.")
+txt = r.text.lower()
+if ("sign in" in txt) or ("signin" in txt) or ("login" in txt):
+    sys.exit("Sieht nach Login-Seite aus → Cookie ungültig/abgelaufen.")
+print("OK: Seite scheint authentifiziert.")
 PY
 
-      - name: Run case "${{ inputs.case || 'scrapeGamecenter' }}"
+      - name: Run case
+        env:
+          CASE: ${{ inputs.case }}
         run: |
-          case "${{ inputs.case || 'scrapeGamecenter' }}" in
+          C="${CASE:-scrapeGamecenter}"
+          echo "Running case: $C"
+          case "$C" in
             scrapeStandings)    python scrapeStandings.py ;;
             aggregateStandings) python aggregateStandings.py ;;
             scrapeGamecenter)   python scrapeGamecenter.py ;;
             analyzeGamecenter)  python analyzeGamecenter.py ;;
+            *) echo "Unbekannte case: $C"; exit 1 ;;
           esac
 
       - name: Upload outputs (output + debug)
