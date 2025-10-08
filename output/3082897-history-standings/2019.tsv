@@ -1,11 +1,12 @@
-TeamName,RegularSeasonRank,Record,PointsFor,PointsAgainst,PlayoffRank,ManagerName,Moves,Trades,DraftPosition
-oG United,1,11-3-0,"1,641.36","1,406.34",2,Erik,36,8,5
-WhoDatNation,2,10-4-0,"1,592.86","1,359.52",1,Marv,15,1,4
-Straight Into Rehab,3,7-7-0,"1,391.74","1,319.42",4,Benni,65,8,8
-The Big Tebowski,4,6-8-0,"1,410.56","1,417.26",3,Tommy,30,2,3
-Promille Boords,5,6-8-0,"1,326.66","1,450.14",7,Juschka,12,1,6
-Every day im Russelln,6,6-8-0,"1,276.42","1,442.30",5,Simi,29,0,2
-Suffering Bastards,7,5-9-0,"1,323.20","1,440.42",8,Ritz,32,3,7
-Snatchville Lubricators,8,5-9-0,"1,326.16","1,453.56",6,Kessi,11,1,1
+TeamName	RegularSeasonRank	Record	PointsFor	PointsAgainst	PlayoffRank	ManagerName	Moves	Trades	DraftPosition
+oG United	1	11-3-0	1,641.36	1,406.34	2	Erik	36	8	5
+WhoDatNation	2	10-4-0	1,592.86	1,359.52	1	Marv	15	1	4
+Straight Into Rehab	3	7-7-0	1,391.74	1,319.42	4	Benni	65	8	8
+The Big Tebowski	4	6-8-0	1,410.56	1,417.26	3	Tommy	30	2	3
+Promille Boords	5	6-8-0	1,326.66	1,450.14	7	Juschka	12	1	6
+Every day im Russelln	6	6-8-0	1,276.42	1,442.30	5	Simi	29	0	2
+Suffering Bastards	7	5-9-0	1,323.20	1,440.42	8	Ritz	32	3	7
+Snatchville Lubricators	8	5-9-0	1,326.16	1,453.56	6	Kessi	11	1	1
+
 
 
