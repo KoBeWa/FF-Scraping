@@ -9,8 +9,8 @@ on:
         default: "nfl_drafts"
         type: choice
         options:
-          - nfl_drafts      # NFL.com History-Drafts mit BeautifulSoup
-          - sleeper_drafts  # Sleeper Drafts via API
+          - nfl_drafts
+          - sleeper_drafts
       start_year:
         description: "Startjahr (nur für NFL.com)"
         required: true
@@ -46,15 +46,44 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install requests beautifulsoup4; fi
 
-      # Optional: Cookie aus Secret in Datei spiegeln (falls dein cookieString.py Datei bevorzugt)
-      - name: Write cookie file
+      - name: Write cookie file (optional)
         run: |
           mkdir -p data
           if [ -n "${NFL_COOKIE}" ]; then
             printf "%s" "${NFL_COOKIE}" > data/nfl_cookie.txt
           fi
+
+      # >>> Precheck direkt auf die DRAFT-Seite <<<
+      - name: Precheck NFL cookie (Draft page)
+        if: ${{ inputs.mode == 'nfl_drafts' }}
+        run: |
+          python - << 'PY'
+import os, sys, pathlib, urllib.parse
+from cookieString import get_session
+
+lid = os.environ.get("LEAGUE_ID")
+yr  = os.environ.get("LEAGUE_END_YEAR")  # nimm zum Test das jüngste Jahr
+base = f"https://fantasy.nfl.com/league/{lid}/history/{yr}/draftresults"
+qs   = {"draftResultsDetail":"0","draftResultsTab":"round","draftResultsType":"results"}
+url  = base + "?" + urllib.parse.urlencode(qs)
+
+s = get_session()
+r = s.get(url, timeout=30, allow_redirects=True)
+print("HTTP:", r.status_code, "URL:", r.url)
+
+pathlib.Path("debug").mkdir(exist_ok=True, parents=True)
+pathlib.Path("debug/draft_precheck.html").write_text(r.text, encoding="utf-8")
+
+txt = r.text.lower()
+hard_redirect = ("/login" in r.url) or ("/signin" in r.url)
+looks_like_draft = any(w in txt for w in ("draft results","round","overall pick","drafted by","draft grade","pick"))
+
+if hard_redirect or not looks_like_draft:
+    sys.exit("Cookie ungültig/abgelaufen → siehe debug/draft_precheck.html")
+print("OK: Draftseite erreichbar & authentifiziert.")
+PY
 
       - name: Run scraper
         env:
@@ -66,22 +95,17 @@ jobs:
         run: |
           set -e
           echo "Mode: ${MODE}"
-
           if [ "${MODE}" = "nfl_drafts" ]; then
-            # Cookie-Precheck ohne Heredoc
-            python -c "import os,sys; from cookieString import get_session; s=get_session(); url='https://fantasy.nfl.com/league/{}/history/{}/standings'.format(os.environ.get('LEAGUE_ID'), os.environ.get('LEAGUE_END_YEAR')); r=s.get(url, timeout=30, allow_redirects=True); bad=any(w in r.text.lower() for w in ('sign in','signin','login')); print('HTTP:', r.status_code, 'Login?', bad); sys.exit(1 if bad else 0)"
-            # NFL.com Drafts scrapen (BeautifulSoup)
             python scrapeNFLDraftboards.py
           else
-            # Sleeper Drafts scrapen (API)
             if [ -z "${SLEEPER_LEAGUE_ID}" ]; then
-              echo "Bitte sleeper_league_id angeben."; exit 1;
+              echo "Bitte sleeper_league_id angeben."; exit 1
             fi
             python scrapeSleeperDraftboards.py
           fi
 
       - name: Upload outputs (CSV/TSV + Debug HTML)
-        if: always()   # lädt auch bei vorherigen Fehlern
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: "draft-output_${{ github.run_number }}"
