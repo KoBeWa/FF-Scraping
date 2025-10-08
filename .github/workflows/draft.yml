@@ -66,24 +66,14 @@ jobs:
         run: |
           set -e
           echo "Mode: ${MODE}"
+
           if [ "${MODE}" = "nfl_drafts" ]; then
-            # NFL.com History Drafts (BeautifulSoup)
-            python - << 'PY'
-          from cookieString import get_session
-          import os, sys
-          # schneller Cookie-/ENV-Check
-          miss = [k for k in ("LEAGUE_ID","LEAGUE_START_YEAR","LEAGUE_END_YEAR") if not os.getenv(k)]
-          if miss: sys.exit(f"Fehlende ENV: {', '.join(miss)}")
-          s = get_session()
-          url = f"https://fantasy.nfl.com/league/{os.environ['LEAGUE_ID']}/history/{os.environ['LEAGUE_END_YEAR']}/standings"
-          r = s.get(url, timeout=30, allow_redirects=True)
-          bad = any(w in r.text.lower() for w in ("sign in","signin","login"))
-          print("HTTP:", r.status_code, "Login-Seite?", bad)
-          if bad: sys.exit("NFL_COOKIE scheint ungültig/abgelaufen.")
-          PY
+            # Cookie-Precheck ohne Heredoc
+            python -c "import os,sys; from cookieString import get_session; s=get_session(); url='https://fantasy.nfl.com/league/{}/history/{}/standings'.format(os.environ.get('LEAGUE_ID'), os.environ.get('LEAGUE_END_YEAR')); r=s.get(url, timeout=30, allow_redirects=True); bad=any(w in r.text.lower() for w in ('sign in','signin','login')); print('HTTP:', r.status_code, 'Login?', bad); sys.exit(1 if bad else 0)"
+            # NFL.com Drafts scrapen (BeautifulSoup)
             python scrapeNFLDraftboards.py
           else
-            # Sleeper Drafts
+            # Sleeper Drafts scrapen (API)
             if [ -z "${SLEEPER_LEAGUE_ID}" ]; then
               echo "Bitte sleeper_league_id angeben."; exit 1;
             fi
@@ -91,20 +81,15 @@ jobs:
           fi
 
       - name: Upload outputs (CSV/TSV + Debug HTML)
-        if: always()  # lädt auch, wenn vorher ein Step fehlschlug
+        if: always()   # lädt auch bei vorherigen Fehlern
         uses: actions/upload-artifact@v4
         with:
-          name: draft-output_${{ inputs.mode || 'nfl_drafts' }}_${{ github.run_number }}
-          # Nur wirklich relevante Dateien:
+          name: "draft-output_${{ github.run_number }}"
           path: |
             output/**/*.csv
             output/**/*.tsv
             debug/**/*.html
             debug/**/*.json
-          if-no-files-found: ignore   # kein Fehler, wenn ein Pattern leer ist
+          if-no-files-found: ignore
           compression-level: 6
           overwrite: true
-
-
-            # Sleeper Drafts
-            if [ -z "${SLEEPER_LEA_]()
