@@ -4,12 +4,8 @@ import csv
 import re
 from pathlib import Path
 
-import requests
 from bs4 import BeautifulSoup
-
-# Wir benutzen dieselbe Session-Quelle wie deine anderen Scraper
-# (cookieString.get_session liest NFL_COOKIE aus Secret/ENV oder data/nfl_cookie.txt)
-from cookieString import get_session
+from cookieString import get_session, warmup, looks_unauth
 
 OUT_DIR = Path("output/drafts")
 DBG_DIR = Path("debug/drafts")
@@ -20,37 +16,28 @@ LEAGUE_ID = os.getenv("LEAGUE_ID", "").strip()
 START = int(os.getenv("LEAGUE_START_YEAR", "2015"))
 END   = int(os.getenv("LEAGUE_END_YEAR", "2021"))
 
-BASE = "https://fantasy.nfl.com"
-
 
 def split_pos_team(pos_team: str):
-    """
-    'RB - CAR' -> ('RB', 'CAR')
-    'K - ' / ' - ' -> handle gracefully
-    """
     if not pos_team:
         return "", ""
     parts = [p.strip() for p in pos_team.split("-")]
     if len(parts) == 2:
         return parts[0], parts[1]
-    # Fallback (unerwartetes Format)
     return pos_team.strip(), ""
 
 
 def parse_draft_html(html: str, year: int, league_id: str):
     """
-    Parst das Listenlayout der NFL-Draftseite:
-    #leagueDraftResultsResults -> div.wrap (je Runde) -> ul > li (je Pick)
+    Listenlayout der NFL-Draftseite:
+    #leagueDraftResultsResults -> div.wrap (Runden) -> ul > li (Picks)
     """
     soup = BeautifulSoup(html, "lxml")
     root = soup.select_one("#leagueDraftResultsResults")
     results = []
-
     if not root:
-        return results  # nichts da (z. B. Login/Consent)
+        return results
 
     for wrap in root.select(".wrap"):
-        # Überschrift "Round 1", "Round 2", ...
         h4 = wrap.find("h4")
         round_name = h4.get_text(strip=True) if h4 else ""
         round_num = ""
@@ -58,7 +45,6 @@ def parse_draft_html(html: str, year: int, league_id: str):
         if m_r:
             round_num = m_r.group(1)
 
-        # Einträge
         for li in wrap.select("ul > li"):
             pick_el = li.select_one(".count")
             player_a = li.select_one("a.playerName")
@@ -66,23 +52,19 @@ def parse_draft_html(html: str, year: int, league_id: str):
             team_name_el = li.select_one(".tw a.teamName")
             manager_li = li.select_one(".tw ul li")
 
-            # Mindestfelder
             if not (pick_el and player_a and pos_team_el and team_name_el):
                 continue
 
-            # Picknummer (die NFL zeigt hier den Overall-Pick; falls es doch Rundennummer wäre, reicht es trotzdem)
             try:
                 pick_overall = int(pick_el.get_text(strip=True).rstrip("."))
             except Exception:
-                # Falls da z. B. '1' ohne Punkt steht
                 pick_overall = int(re.sub(r"\D+", "", pick_el.get_text()))
 
             player_name = player_a.get_text(strip=True)
-            pos_team_txt = pos_team_el.get_text(strip=True)  # "RB - CAR"
+            pos_team_txt = pos_team_el.get_text(strip=True)
             dest_team = team_name_el.get_text(strip=True)
             manager = manager_li.get_text(strip=True) if manager_li else ""
 
-            # playerId aus href extrahieren (robuster als Klassen)
             href = player_a.get("href", "")
             m = re.search(r"playerId=(\d+)", href)
             player_id = m.group(1) if m else ""
@@ -105,25 +87,32 @@ def parse_draft_html(html: str, year: int, league_id: str):
     return results
 
 
-def fetch_year(session: requests.Session, year: int, league_id: str):
+def fetch_draft_html(session, league_id: str, year: int) -> str:
     """
-    Holt die Draftseite für ein Jahr in der History-Ansicht:
-    .../history/<YEAR>/draftresults?draftResultsTab=round&draftResultsType=results
+    Holt die Draftseite + schreibt immer einen Debug-Dump.
+    Nutzt Referer und macht einen Re-Try nach Warmup, falls Consent/Login sichtbar ist.
     """
-    url = f"{BASE}/league/{league_id}/history/{year}/draftresults"
-    params = {
-        "draftResultsTab": "round",
-        "draftResultsType": "results"
-    }
-    r = session.get(url, params=params, timeout=30, allow_redirects=True)
-    # Debug-Dump zum Nachschauen
-    DBG_DIR.mkdir(parents=True, exist_ok=True)
-    (DBG_DIR / f"draft_{year}.html").write_text(r.text, encoding="utf-8")
-    return r.text, r.url, r.status_code
+    url = (f"https://fantasy.nfl.com/league/{league_id}/history/{year}/"
+           "draftresults?draftResultsDetail=0&draftResultsTab=round&draftResultsType=results")
+    ref = f"https://fantasy.nfl.com/league/{league_id}/history/{year}"
+    headers = {"Referer": ref}
+
+    r = session.get(url, headers=headers, timeout=30, allow_redirects=True)
+    html = r.text
+    (DBG_DIR / f"draft_{year}.html").write_text(html, encoding="utf-8")
+
+    if looks_unauth(html):
+        # härter aufwärmen & erneut
+        session.get(f"https://fantasy.nfl.com/league/{league_id}/history/{year}", timeout=30, allow_redirects=True)
+        session.get(f"https://fantasy.nfl.com/league/{league_id}/history/{year}/standings", timeout=30, allow_redirects=True)
+        r = session.get(url, headers=headers, timeout=30, allow_redirects=True)
+        html = r.text
+        (DBG_DIR / f"draft_{year}.retry.html").write_text(html, encoding="utf-8")
+
+    return html
 
 
 def write_csv(year: int, rows: list):
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
     out_path = OUT_DIR / f"draft_{year}.csv"
     header = [
         "Year", "LeagueId", "Round", "PickOverall",
@@ -147,12 +136,13 @@ def main():
         raise SystemExit("LEAGUE_ID fehlt (ENV setzen).")
 
     s = get_session()
+    warmup(s, LEAGUE_ID)
 
     for year in range(START, END + 1):
-        html, final_url, status = fetch_year(s, year, LEAGUE_ID)
+        html = fetch_draft_html(s, LEAGUE_ID, year)
         low = html.lower()
-        if any(w in low for w in ("sign in", "signin", "login")):
-            print(f"[{year}] WARN: Login/Consent erkannt (Status {status}). Prüfe debug/drafts/draft_{year}.html")
+        if any(w in low for w in ("sign in", "signin", "login", "onetrust", "consent")):
+            print(f"[{year}] WARN: Login/Consent erkannt. Prüfe debug/drafts/draft_{year}.html")
             continue
 
         rows = parse_draft_html(html, year, LEAGUE_ID)
@@ -164,4 +154,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
