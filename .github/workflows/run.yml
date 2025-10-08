@@ -1,0 +1,13 @@
+- name: run
+  env:
+    LEAGUE_ID: "3082897"           # <— deine NFL Liga-ID
+    LEAGUE_START_YEAR: "2015"      # optional, falls genutzt
+    LEAGUE_END_YEAR: "2021"        # optional, falls genutzt
+    NFL_COOKIE: ${{ secrets.NFL_COOKIE }}   # <— Secret mit der *Cookie:-Header-Zeile*
+  run: |
+    case "${{ matrix.case }}" in
+      "scrapeStandings")  python scrapeStandings.py ;;
+      "aggregateStandings") python aggregateStandings.py ;;
+      "scrapeGamecenter") python scrapeGamecenter.py ;;
+      "analyzeGamecenter") python analyzeGamecenter.py ;;
+    esac
