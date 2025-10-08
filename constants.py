@@ -1,5 +1,5 @@
 leagueID = "3082897"
-leagueStartYear = 2015
+leagueStartYear = 2020
 leagueEndYear = 2022
 
 standings_directory = './output/'+ leagueID + '-history-standings/'
