@@ -1,48 +1,54 @@
 # cookieString.py
-import os, requests
+import os, requests, pathlib
 
-def parse_cookie_string(s: str) -> dict:
+def _read_cookie_string() -> str:
+    # 1) Env
+    val = os.getenv("NFL_COOKIE", "").strip()
+    if val:
+        return val
+    # 2) Datei
+    p = pathlib.Path("data/nfl_cookie.txt")
+    if p.exists():
+        return p.read_text(encoding="utf-8").strip()
+    return ""
+
+def _parse_cookie_string(s: str) -> dict:
     jar = {}
-    # Zerlege "k=v; k2=v2; ..."
+    # Entferne evtl. führendes "Cookie:" falls versehentlich mitkopiert
+    if s.lower().startswith("cookie:"):
+        s = s.split(":", 1)[1].strip()
+    # Split per Semikolon
     for part in s.split(";"):
         part = part.strip()
-        if not part or "=" not in part:
+        if not part:
             continue
-        k, v = part.split("=", 1)
-        jar[k.strip()] = v.strip()
+        if "=" in part:
+            k, v = part.split("=", 1)
+            jar[k.strip()] = v.strip()
     return jar
-
-def load_cookie_string() -> str:
-    env = os.getenv("NFL_COOKIE", "").strip()
-    if env:
-        return env
-    # Fallback: Datei data/nfl_cookie.txt
-    p = os.path.join("data", "nfl_cookie.txt")
-    if os.path.exists(p):
-        return open(p, "r", encoding="utf-8").read().strip()
-    return ""
 
 def get_session() -> requests.Session:
     s = requests.Session()
-    # realistischere Header
+    # Browsernahe Header (verringert Consent-/Bot-Wände)
     s.headers.update({
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                      "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,"
-                  "image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/140.0.0.0 Safari/537.36"
+        ),
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
         "Connection": "keep-alive",
         "Upgrade-Insecure-Requests": "1",
     })
-    ck = load_cookie_string()
-    if ck:
-        s.cookies.update(parse_cookie_string(ck))
+
+    cookie_str = _read_cookie_string()
+    cookies = _parse_cookie_string(cookie_str)
+    if cookies:
+        for k, v in cookies.items():
+            # Domain leer lassen → Requests sendet Cookie an Host der jeweiligen URL.
+            s.cookies.set(k, v)
     return s
 
 def have_cookie() -> bool:
-    return bool(load_cookie_string())
-
-    })
-    return s
-
-__all__ = ["get_session", "have_cookie", "get_cookie"]
+    return bool(_read_cookie_string())
