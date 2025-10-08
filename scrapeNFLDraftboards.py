@@ -2,275 +2,166 @@
 import os
 import csv
 import re
-import urllib.parse
 from pathlib import Path
 
+import requests
 from bs4 import BeautifulSoup
+
+# Wir benutzen dieselbe Session-Quelle wie deine anderen Scraper
+# (cookieString.get_session liest NFL_COOKIE aus Secret/ENV oder data/nfl_cookie.txt)
 from cookieString import get_session
 
-OUT = Path("output/nfl_drafts")
-DBG = Path("debug/drafts")
-OUT.mkdir(parents=True, exist_ok=True)
-DBG.mkdir(parents=True, exist_ok=True)
+OUT_DIR = Path("output/drafts")
+DBG_DIR = Path("debug/drafts")
+OUT_DIR.mkdir(parents=True, exist_ok=True)
+DBG_DIR.mkdir(parents=True, exist_ok=True)
 
 LEAGUE_ID = os.getenv("LEAGUE_ID", "").strip()
 START = int(os.getenv("LEAGUE_START_YEAR", "2015"))
 END   = int(os.getenv("LEAGUE_END_YEAR", "2021"))
 
-HEADERS = [
-    "Year","Round","OverallPick","TeamName","ManagerName",
-    "Player","Position","NFLTeam","Notes"
-]
+BASE = "https://fantasy.nfl.com"
 
-LOGIN_MARKERS = ("sign in", "signin", "login", "forgot password", "create account")
 
-def looks_like_login(html: str, url: str) -> bool:
-    low = html.lower()
-    if any(k in low for k in LOGIN_MARKERS):
-        return True
-    if "/login" in url or "/signin" in url:
-        return True
-    return False
-
-def clean_txt(x):
-    return re.sub(r"\s+", " ", (x or "")).strip()
-
-def parse_table_based(soup: BeautifulSoup):
+def split_pos_team(pos_team: str):
     """
-    Versucht, tabellarische Draft-Daten zu lesen (mehrere mögliche Strukturen).
+    'RB - CAR' -> ('RB', 'CAR')
+    'K - ' / ' - ' -> handle gracefully
     """
+    if not pos_team:
+        return "", ""
+    parts = [p.strip() for p in pos_team.split("-")]
+    if len(parts) == 2:
+        return parts[0], parts[1]
+    # Fallback (unerwartetes Format)
+    return pos_team.strip(), ""
+
+
+def parse_draft_html(html: str, year: int, league_id: str):
+    """
+    Parst das Listenlayout der NFL-Draftseite:
+    #leagueDraftResultsResults -> div.wrap (je Runde) -> ul > li (je Pick)
+    """
+    soup = BeautifulSoup(html, "lxml")
+    root = soup.select_one("#leagueDraftResultsResults")
     results = []
 
-    # Kandidaten-Tabellen: id/class enthält 'draft'
-    tables = []
-    for t in soup.find_all("table"):
-        id_ = (t.get("id") or "").lower()
-        cls = " ".join(t.get("class") or []).lower()
-        if any(k in id_ for k in ("draft", "results")) or any(k in cls for k in ("draft", "results")):
-            tables.append(t)
+    if not root:
+        return results  # nichts da (z. B. Login/Consent)
 
-    # Fallback: keine offensichtliche Draft-Tabelle → nimm alle Tabellen
-    if not tables:
-        tables = soup.find_all("table")
+    for wrap in root.select(".wrap"):
+        # Überschrift "Round 1", "Round 2", ...
+        h4 = wrap.find("h4")
+        round_name = h4.get_text(strip=True) if h4 else ""
+        round_num = ""
+        m_r = re.search(r"Round\s+(\d+)", round_name, re.I)
+        if m_r:
+            round_num = m_r.group(1)
 
-    for table in tables:
-        # Header prüfen – ob irgendwie nach Draft aussieht
-        hdr_txt = " ".join(th.get_text(" ", strip=True) for th in table.find_all("th"))
-        if not any(k in hdr_txt.lower() for k in ("round", "pick", "overall", "player")):
-            # könnte dennoch eine subtable sein – wir versuchen trotzdem
-            pass
+        # Einträge
+        for li in wrap.select("ul > li"):
+            pick_el = li.select_one(".count")
+            player_a = li.select_one("a.playerName")
+            pos_team_el = li.select_one("em")
+            team_name_el = li.select_one(".tw a.teamName")
+            manager_li = li.select_one(".tw ul li")
 
-        for tr in table.find_all("tr"):
-            tds = tr.find_all(["td", "th"])
-            if len(tds) < 3:
+            # Mindestfelder
+            if not (pick_el and player_a and pos_team_el and team_name_el):
                 continue
 
-            row_txts = [clean_txt(td.get_text(" ", strip=True)) for td in tds]
-            row_join = " ".join(row_txts).lower()
-            # heuristisch: muss irgendwo Pick/Player vorkommen
-            if not any(k in row_join for k in ("pick", "player", "round")):
-                continue
+            # Picknummer (die NFL zeigt hier den Overall-Pick; falls es doch Rundennummer wäre, reicht es trotzdem)
+            try:
+                pick_overall = int(pick_el.get_text(strip=True).rstrip("."))
+            except Exception:
+                # Falls da z. B. '1' ohne Punkt steht
+                pick_overall = int(re.sub(r"\D+", "", pick_el.get_text()))
 
-            # Versuche Round / Overall aus Zellen oder aus einer "Round X" Überschrift
-            round_no = None
-            overall = None
-            team_name = ""
-            manager = ""
-            player = ""
-            pos = ""
-            nfl_team = ""
-            notes = ""
+            player_name = player_a.get_text(strip=True)
+            pos_team_txt = pos_team_el.get_text(strip=True)  # "RB - CAR"
+            dest_team = team_name_el.get_text(strip=True)
+            manager = manager_li.get_text(strip=True) if manager_li else ""
 
-            # Häufige Muster:
-            # [Round, Overall, Pick(by team/manager), Player (POS - NFL), ...]
-            # Oder: Overall, Team/Manager, Player, POS, NFL
-            txts = [t.strip() for t in row_txts]
+            # playerId aus href extrahieren (robuster als Klassen)
+            href = player_a.get("href", "")
+            m = re.search(r"playerId=(\d+)", href)
+            player_id = m.group(1) if m else ""
 
-            # Round
-            for t in txts:
-                m = re.search(r"\bround\s*(\d+)", t, flags=re.I)
-                if m:
-                    round_no = m.group(1)
-                    break
-            # Overall
-            for t in txts:
-                m = re.search(r"\boverall\s*pick\s*(\d+)|\boverall\s*(\d+)|^\s*(\d+)\s*$", t, flags=re.I)
-                if m:
-                    overall = next(g for g in m.groups() if g)
-                    break
-
-            # Player + (POS - NFL)
-            for t in txts:
-                # z.B. "Christian McCaffrey RB - CAR"
-                m = re.search(r"(.+?)\s+([A-Z]{1,3})\s*-\s*([A-Z]{2,3})$", t)
-                if m:
-                    player, pos, nfl_team = m.group(1), m.group(2), m.group(3)
-                    break
-
-            # Team/Manager (z. B. "Drafted by Los Cheezos Ritzos (LosSausages)")
-            for t in txts:
-                if "drafted by" in t.lower():
-                    take = t.split(":", 1)[-1].strip() if ":" in t else t
-                    # Hole evtl. "Team (Manager)"
-                    m = re.search(r"(.+?)\s*\((.+?)\)", take)
-                    if m:
-                        team_name, manager = m.group(1).strip(), m.group(2).strip()
-                    else:
-                        team_name = take
-                    break
-            if not team_name:
-                # Look for a cell that contains parentheses pair likely team(manager)
-                for t in txts:
-                    m = re.search(r"(.+?)\s*\((.+?)\)", t)
-                    if m and all(len(x) > 1 for x in m.groups()):
-                        team_name, manager = m.group(1).strip(), m.group(2).strip()
-                        break
-
-            # Fallbacks, wenn nichts extrahiert wurde – versuche die häufigste Spaltenordnung:
-            # 0: Overall, 1: Team/Manager, 2: Player, 3: POS, 4: NFL
-            if overall is None:
-                m = re.match(r"^\d+$", txts[0]) if txts else None
-                if m:
-                    overall = txts[0]
-            if not player and len(txts) >= 3:
-                player = txts[2]
-            if not pos and len(txts) >= 4:
-                pos = txts[3]
-            if not nfl_team and len(txts) >= 5:
-                nfl_team = txts[4]
-
-            # Minimalanforderung: mindestens Player ODER Overall muss da sein
-            if not player and not overall:
-                continue
+            pos, nfl_team = split_pos_team(pos_team_txt)
 
             results.append({
-                "Round": round_no or "",
-                "OverallPick": overall or "",
-                "TeamName": team_name,
-                "ManagerName": manager,
-                "Player": player,
-                "Position": pos,
-                "NFLTeam": nfl_team,
-                "Notes": "",
+                "year": year,
+                "league_id": league_id,
+                "round": round_num,
+                "pick_overall": pick_overall,
+                "player": player_name,
+                "player_id": player_id,
+                "pos": pos,
+                "nfl_team": nfl_team,
+                "to_team": dest_team,
+                "manager": manager,
             })
 
     return results
 
-def parse_list_based(soup: BeautifulSoup):
+
+def fetch_year(session: requests.Session, year: int, league_id: str):
     """
-    Manche Jahre sind als <ul>/<li> gelistet.
+    Holt die Draftseite für ein Jahr in der History-Ansicht:
+    .../history/<YEAR>/draftresults?draftResultsTab=round&draftResultsType=results
     """
-    results = []
-    # Kandidaten-Container
-    containers = []
-    for tag in soup.find_all(["ul", "ol", "div", "section"]):
-        id_ = (tag.get("id") or "").lower()
-        cls = " ".join(tag.get("class") or []).lower()
-        txt = (tag.get_text(" ", strip=True) or "").lower()
-        if any(k in id_ for k in ("draft", "results")) or any(k in cls for k in ("draft", "results")) or "draft" in txt[:200]:
-            containers.append(tag)
+    url = f"{BASE}/league/{league_id}/history/{year}/draftresults"
+    params = {
+        "draftResultsTab": "round",
+        "draftResultsType": "results"
+    }
+    r = session.get(url, params=params, timeout=30, allow_redirects=True)
+    # Debug-Dump zum Nachschauen
+    DBG_DIR.mkdir(parents=True, exist_ok=True)
+    (DBG_DIR / f"draft_{year}.html").write_text(r.text, encoding="utf-8")
+    return r.text, r.url, r.status_code
 
-    if not containers:
-        containers = [soup]
 
-    for cont in containers:
-        for li in cont.find_all(["li", "div"], recursive=True):
-            txt = clean_txt(li.get_text(" ", strip=True))
-            low = txt.lower()
-            if not any(k in low for k in ("pick", "player")):
-                continue
+def write_csv(year: int, rows: list):
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = OUT_DIR / f"draft_{year}.csv"
+    header = [
+        "Year", "LeagueId", "Round", "PickOverall",
+        "Player", "PlayerId", "Pos", "NFLTeam",
+        "DraftedByTeam", "Manager"
+    ]
+    with out_path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(header)
+        for r in sorted(rows, key=lambda x: x["pick_overall"]):
+            w.writerow([
+                r["year"], r["league_id"], r["round"], r["pick_overall"],
+                r["player"], r["player_id"], r["pos"], r["nfl_team"],
+                r["to_team"], r["manager"]
+            ])
+    print(f"✓ {year}: {len(rows)} Picks → {out_path}")
 
-            round_no = None
-            overall = None
-            team_name = ""
-            manager = ""
-            player = ""
-            pos = ""
-            nfl_team = ""
-            notes = ""
-
-            m = re.search(r"\bround\s*(\d+)", txt, flags=re.I)
-            if m:
-                round_no = m.group(1)
-            m = re.search(r"\boverall\s*pick\s*(\d+)|\boverall\s*(\d+)|\bpick\s*(\d+)", txt, flags=re.I)
-            if m:
-                overall = next(g for g in m.groups() if g)
-
-            m = re.search(r"(.+?)\s+([A-Z]{1,3})\s*-\s*([A-Z]{2,3})", txt)
-            if m:
-                player, pos, nfl_team = m.group(1), m.group(2), m.group(3)
-
-            m = re.search(r"drafted by\s*([^()]+)\s*(\(([^)]+)\))?", txt, flags=re.I)
-            if m:
-                team_name = (m.group(1) or "").strip()
-                manager = (m.group(3) or "").strip()
-
-            if not player and not overall:
-                continue
-
-            results.append({
-                "Round": round_no or "",
-                "OverallPick": overall or "",
-                "TeamName": team_name,
-                "ManagerName": manager,
-                "Player": player,
-                "Position": pos,
-                "NFLTeam": nfl_team,
-                "Notes": "",
-            })
-
-    return results
-
-def scrape_year(year: int):
-    from bs4 import BeautifulSoup  # local import to ensure bs4 installed
-    import requests
-
-    s = get_session()
-    base = f"https://fantasy.nfl.com/league/{LEAGUE_ID}/history/{year}/draftresults"
-    qs = {"draftResultsDetail":"0","draftResultsTab":"round","draftResultsType":"results"}
-    url = base + "?" + urllib.parse.urlencode(qs)
-
-    r = s.get(url, timeout=40, allow_redirects=True)
-    DBG.joinpath(f"draft_{year}.html").write_text(r.text, encoding="utf-8")
-
-    if looks_like_login(r.text, r.url):
-        print(f"[{year}] Sieht nach Login/Fehler aus – prüfe debug/drafts/draft_{year}.html")
-        return []
-
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    rows = parse_table_based(soup)
-    if not rows:
-        rows = parse_list_based(soup)
-
-    return rows
 
 def main():
     if not LEAGUE_ID:
-        raise SystemExit("LEAGUE_ID fehlt (ENV).")
+        raise SystemExit("LEAGUE_ID fehlt (ENV setzen).")
 
-    any_ok = False
+    s = get_session()
+
     for year in range(START, END + 1):
-        rows = scrape_year(year)
-        if not rows:
-            print(f"[{year}] Keine Draft-Zeilen erkannt. Prüfe debug/drafts/draft_{year}.html")
+        html, final_url, status = fetch_year(s, year, LEAGUE_ID)
+        low = html.lower()
+        if any(w in low for w in ("sign in", "signin", "login")):
+            print(f"[{year}] WARN: Login/Consent erkannt (Status {status}). Prüfe debug/drafts/draft_{year}.html")
             continue
 
-        out = OUT / f"{year}_draft.csv"
-        with out.open("w", newline="", encoding="utf-8") as f:
-            w = csv.DictWriter(f, fieldnames=HEADERS)
-            w.writeheader()
-            for r in rows:
-                r2 = {
-                    "Year": year,
-                    **r
-                }
-                w.writerow(r2)
-        any_ok = True
-        print(f"[{year}] ✓ {len(rows)} Picks → {out}")
+        rows = parse_draft_html(html, year, LEAGUE_ID)
+        if not rows:
+            print(f"[{year}] Keine Draft-Zeilen erkannt. Prüfe debug/drafts/draft_{year}.html")
+        else:
+            write_csv(year, rows)
 
-    if not any_ok:
-        raise SystemExit("Keine Drafts geparst. Siehe debug/drafts/*.html für das tatsächliche Markup.")
 
 if __name__ == "__main__":
     main()
+
