@@ -1,121 +1,122 @@
-Round,Overall,PickInRound,TeamName,ManagerName,OriginalSlot,Player,Pos,NFLTeam
-1,1,1,Straight Outta Rehab,Benjamin,1,David Johnson,RB,ARI
-| 1 | 2 | 2 | oGucci United | Erik | 2 | Le'Veon Bell | RB | PIT |
-| 1 | 3 | 3 | Every day im Russelln | Simon | 3 | Antonio Brown | WR | PIT |
-| 1 | 4 | 4 | oGucci United | Erik | 2 | Ezekiel Elliott | RB | DAL |
-| 1 | 5 | 5 | Snatchville Lubricators | marco | 5 | Julio Jones | WR | ATL |
-| 1 | 6 | 6 | Los Kaltschalenzentrieros | Matthias | 6 | LeSean McCoy | RB | BUF |
-| 1 | 7 | 7 | Promille Boords | Julian | 7 | Melvin Gordon | RB | LAC |
-| 1 | 8 | 8 | knockin on Evans door | Tommy | 8 | Odell Beckham | WR | NYG |
-| 2 | 9 | 1 | knockin on Evans door | Tommy | 8 | Mike Evans | WR | TB |
-| 2 | 10 | 2 | Promille Boords | Julian | 7 | Devonta Freeman | RB | ATL |
-| 2 | 11 | 3 | Los Kaltschalenzentrieros | Matthias | 6 | A.J. Green | WR | CIN |
-| 2 | 12 | 4 | Snatchville Lubricators | marco | 5 | DeMarco Murray | RB | TEN |
-| 2 | 13 | 5 | WhoDatNation | Marvin | 4 | Jay Ajayi | RB | PHI |
-| 2 | 14 | 6 | Every day im Russelln | Simon | 3 | Jordan Howard | RB | CHI |
-| 2 | 15 | 7 | WhoDatNation | Marvin | 4 | Michael Thomas | WR | NO |
-| 2 | 16 | 8 | Straight Outta Rehab | Benjamin | 1 | Jordy Nelson | WR | GB |
-| 3 | 17 | 1 | Straight Outta Rehab | Benjamin | 1 | T.Y. Hilton | WR | IND |
-| 3 | 18 | 2 | WhoDatNation | Marvin | 4 | Leonard Fournette | RB | JAX |
-| 3 | 19 | 3 | Every day im Russelln | Simon | 3 | Dez Bryant | WR | DAL |
-| 3 | 20 | 4 | WhoDatNation | Marvin | 4 | Doug Baldwin | WR | SEA |
-| 3 | 21 | 5 | Snatchville Lubricators | marco | 5 | Aaron Rodgers | QB | GB |
-| 3 | 22 | 6 | Los Kaltschalenzentrieros | Matthias | 6 | Lamar Miller | RB | HOU |
-| 3 | 23 | 7 | Promille Boords | Julian | 7 | Marshawn Lynch | RB | LV |
-| 3 | 24 | 8 | knockin on Evans door | Tommy | 8 | Todd Gurley | RB | LA |
-| 4 | 25 | 1 | knockin on Evans door | Tommy | 8 | Rob Gronkowski | TE | NE |
-| 4 | 26 | 2 | Promille Boords | Julian | 7 | Davante Adams | WR | GB |
-| 4 | 27 | 3 | Los Kaltschalenzentrieros | Matthias | 6 | Tom Brady | QB | NE |
-| 4 | 28 | 4 | Snatchville Lubricators | marco | 5 | Spencer Ware | RB | KC |
-| 4 | 29 | 5 | oGucci United | Erik | 2 | Amari Cooper | WR | LV |
-| 4 | 30 | 6 | Every day im Russelln | Simon | 3 | Isaiah Crowell | RB | CLE |
-| 4 | 31 | 7 | oGucci United | Erik | 2 | Travis Kelce | TE | KC |
-| 4 | 32 | 8 | Straight Outta Rehab | Benjamin | 1 | Brandin Cooks | WR | NE |
-| 5 | 33 | 1 | Straight Outta Rehab | Benjamin | 1 | Christian McCaffrey | RB | CAR |
-| 5 | 34 | 2 | oGucci United | Erik | 2 | Terrelle Pryor | WR | WAS |
-| 5 | 35 | 3 | Every day im Russelln | Simon | 3 | DeAndre Hopkins | WR | HOU |
-| 5 | 36 | 4 | WhoDatNation | Marvin | 4 | Joe Mixon | RB | CIN |
-| 5 | 37 | 5 | Snatchville Lubricators | marco | 5 | Tyreek Hill | WR | KC |
-| 5 | 38 | 6 | Los Kaltschalenzentrieros | Matthias | 6 | Carlos Hyde | RB | SF |
-| 5 | 39 | 7 | Promille Boords | Julian | 7 | Jarvis Landry | WR | MIA |
-| 5 | 40 | 8 | knockin on Evans door | Tommy | 8 | Allen Robinson | WR | JAX |
-| 6 | 41 | 1 | knockin on Evans door | Tommy | 8 | Bilal Powell | RB | NYJ |
-| 6 | 42 | 2 | Promille Boords | Julian | 7 | Demaryius Thomas | WR | DEN |
-| 6 | 43 | 3 | Los Kaltschalenzentrieros | Matthias | 6 | Michael Crabtree | WR | LV |
-| 6 | 44 | 4 | Snatchville Lubricators | marco | 5 | Jimmy Graham | TE | SEA |
-| 6 | 45 | 5 | WhoDatNation | Marvin | 4 | Alshon Jeffery | WR | PHI |
-| 6 | 46 | 6 | Every day im Russelln | Simon | 3 | Greg Olsen | TE | CAR |
-| 6 | 47 | 7 | oGucci United | Erik | 2 | C.J. Anderson | RB | DEN |
-| 6 | 48 | 8 | Straight Outta Rehab | Benjamin | 1 | Jordan Reed | TE | WAS |
-| 7 | 49 | 1 | Straight Outta Rehab | Benjamin | 1 | Drew Brees | QB | NO |
-| 7 | 50 | 2 | oGucci United | Erik | 2 | Andrew Luck | QB | IND |
-| 7 | 51 | 3 | Every day im Russelln | Simon | 3 | Russell Wilson | QB | SEA |
-| 7 | 52 | 4 | WhoDatNation | Marvin | 4 | Marcus Mariota | QB | TEN |
-| 7 | 53 | 5 | Snatchville Lubricators | marco | 5 | Larry Fitzgerald | WR | ARI |
-| 7 | 54 | 6 | Los Kaltschalenzentrieros | Matthias | 6 | Frank Gore | RB | IND |
-| 7 | 55 | 7 | Promille Boords | Julian | 7 | Matt Ryan | QB | ATL |
-| 7 | 56 | 8 | knockin on Evans door | Tommy | 8 | Julian Edelman | WR | NE |
-| 8 | 57 | 1 | knockin on Evans door | Tommy | 8 | Tevin Coleman | RB | ATL |
-| 8 | 58 | 2 | Promille Boords | Julian | 7 | Golden Tate | WR | DET |
-| 8 | 59 | 3 | Los Kaltschalenzentrieros | Matthias | 6 | Keenan Allen | WR | LAC |
-| 8 | 60 | 4 | Snatchville Lubricators | marco | 5 | Kansas City Chiefs | DEF | KC |
-| 8 | 61 | 5 | oGucci United | Erik | 2 | Ty Montgomery | RB | GB |
-| 8 | 62 | 6 | Every day im Russelln | Simon | 3 | Mark Ingram | RB | NO |
-| 8 | 63 | 7 | oGucci United | Erik | 2 | Denver Broncos | DEF | DEN |
-| 8 | 64 | 8 | Straight Outta Rehab | Benjamin | 1 | Sammy Watkins | WR | LA |
-| 9 | 65 | 1 | Straight Outta Rehab | Benjamin | 1 | Dalvin Cook | RB | MIN |
-| 9 | 66 | 2 | oGucci United | Erik | 2 | Stefon Diggs | WR | MIN |
-| 9 | 67 | 3 | Every day im Russelln | Simon | 3 | Seattle Seahawks | DEF | SEA |
-| 9 | 68 | 4 | WhoDatNation | Marvin | 4 | LeGarrette Blount | RB | PHI |
-| 9 | 69 | 5 | Snatchville Lubricators | marco | 5 | Mike Gillislee | RB | NE |
-| 9 | 70 | 6 | Los Kaltschalenzentrieros | Matthias | 6 | Emmanuel Sanders | WR | DEN |
-| 9 | 71 | 7 | Promille Boords | Julian | 7 | Paul Perkins | RB | NYG |
-| 9 | 72 | 8 | knockin on Evans door | Tommy | 8 | DeSean Jackson | WR | TB |
-| 10 | 73 | 1 | knockin on Evans door | Tommy | 8 | Rob Kelley | RB | WAS |
-| 10 | 74 | 2 | Promille Boords | Julian | 7 | Kelvin Benjamin | WR | BUF |
-| 10 | 75 | 3 | Los Kaltschalenzentrieros | Matthias | 6 | Danny Woodhead | RB | BAL |
-| 10 | 76 | 4 | Snatchville Lubricators | marco | 5 | Mike Wallace | WR | BAL |
-| 10 | 77 | 5 | WhoDatNation | Marvin | 4 | Delanie Walker | TE | TEN |
-| 10 | 78 | 6 | Every day im Russelln | Simon | 3 | Donte Moncrief | WR | IND |
-| 10 | 79 | 7 | WhoDatNation | Marvin | 4 | Eddie Lacy | RB | SEA |
-| 10 | 80 | 8 | Straight Outta Rehab | Benjamin | 1 | Martavis Bryant | WR | PIT |
-| 11 | 81 | 1 | Straight Outta Rehab | Benjamin | 1 | Doug Martin | RB | TB |
-| 11 | 82 | 2 | WhoDatNation | Marvin | 4 | Minnesota Vikings | DEF | MIN |
-| 11 | 83 | 3 | Every day im Russelln | Simon | 3 | Latavius Murray | RB | MIN |
-| 11 | 84 | 4 | WhoDatNation | Marvin | 4 | Samaje Perine | RB | WAS |
-| 11 | 85 | 5 | Snatchville Lubricators | marco | 5 | Jeremy Hill | RB | CIN |
-| 11 | 86 | 6 | Los Kaltschalenzentrieros | Matthias | 6 | Tyler Eifert | TE | CIN |
-| 11 | 87 | 7 | Promille Boords | Julian | 7 | Kyle Rudolph | TE | MIN |
-| 11 | 88 | 8 | knockin on Evans door | Tommy | 8 | Houston Texans | DEF | HOU |
-| 12 | 89 | 1 | knockin on Evans door | Tommy | 8 | Matt Forte | RB | NYJ |
-| 12 | 90 | 2 | Promille Boords | Julian | 7 | Willie Snead | WR | NO |
-| 12 | 91 | 3 | Los Kaltschalenzentrieros | Matthias | 6 | Ameer Abdullah | RB | DET |
-| 12 | 92 | 4 | Snatchville Lubricators | marco | 5 | Justin Tucker | K | BAL |
-| 12 | 93 | 5 | WhoDatNation | Marvin | 4 | Corey Davis | WR | TEN |
-| 12 | 94 | 6 | Every day im Russelln | Simon | 3 | Brandon Marshall | WR | NYG |
-| 12 | 95 | 7 | oGucci United | Erik | 2 | Jamison Crowder | WR | WAS |
-| 12 | 96 | 8 | Straight Outta Rehab | Benjamin | 1 | Adrian Peterson | RB | ARI |
-| 13 | 97 | 1 | Straight Outta Rehab | Benjamin | 1 | New York Giants | DEF | NYG |
-| 13 | 98 | 2 | oGucci United | Erik | 2 | Stephen Gostkowski | K | NE |
-| 13 | 99 | 3 | Every day im Russelln | Simon | 3 | Matt Bryant | K | ATL |
-| 13 | 100 | 4 | oGucci United | Erik | 2 | Derrick Henry | RB | TEN |
-| 13 | 101 | 5 | Snatchville Lubricators | marco | 5 | Tyrell Williams | WR | LAC |
-| 13 | 102 | 6 | Los Kaltschalenzentrieros | Matthias | 6 | Pierre Garcon | WR | SF |
-| 13 | 103 | 7 | Promille Boords | Julian | 7 | Jonathan Stewart | RB | CAR |
-| 13 | 104 | 8 | knockin on Evans door | Tommy | 8 | Mason Crosby | K | GB |
-| 14 | 105 | 1 | knockin on Evans door | Tommy | 8 | Derek Carr | QB | LV |
-| 14 | 106 | 2 | Promille Boords | Julian | 7 | Atlanta Falcons | DEF | ATL |
-| 14 | 107 | 3 | Los Kaltschalenzentrieros | Matthias | 6 | Eric Decker | WR | TEN |
-| 14 | 108 | 4 | Snatchville Lubricators | marco | 5 | Martellus Bennett | TE | NE |
-| 14 | 109 | 5 | WhoDatNation | Marvin | 4 | Wil Lutz | K | NO |
-| 14 | 110 | 6 | Every day im Russelln | Simon | 3 | Kenny Britt | WR | NE |
-| 14 | 111 | 7 | oGucci United | Erik | 2 | Cameron Meredith | WR | CHI |
-| 14 | 112 | 8 | Straight Outta Rehab | Benjamin | 1 | Dan Bailey | K | DAL |
-| 15 | 113 | 1 | Straight Outta Rehab | Benjamin | 1 | Jeremy Maclin | WR | BAL |
-| 15 | 114 | 2 | oGucci United | Erik | 2 | Cam Newton | QB | CAR |
-| 15 | 115 | 3 | Every day im Russelln | Simon | 3 | Kareem Hunt | RB | KC |
-| 15 | 116 | 4 | WhoDatNation | Marvin | 4 | David Njoku | TE | CLE |
-| 15 | 117 | 5 | Snatchville Lubricators | marco | 5 | James White | RB | NE |
-| 15 | 118 | 6 | Los Kaltschalenzentrieros | Matthias | 6 | New England Patriots | DEF | NE |
-| 15 | 119 | 7 | Promille Boords | Julian | 7 | Brandon McManus | K | DEN |
-| 15 | 120 | 8 | knockin on Evans door | Tommy | 8 | Indianapolis Colts | DEF | IND |
+Round	Overall	PickInRound	TeamName	ManagerName	OriginalSlot	Player	Pos	NFLTeam
+1	1	1	Straight Outta Rehab	Benjamin	1	David Johnson	RB	ARI
+1	2	2	oGucci United	Erik	2	Le'Veon Bell	RB	PIT
+1	3	3	Every day im Russelln	Simon	3	Antonio Brown	WR	PIT
+1	4	4	oGucci United	Erik	2	Ezekiel Elliott	RB	DAL
+1	5	5	Snatchville Lubricators	marco	5	Julio Jones	WR	ATL
+1	6	6	Los Kaltschalenzentrieros	Matthias	6	LeSean McCoy	RB	BUF
+1	7	7	Promille Boords	Julian	7	Melvin Gordon	RB	LAC
+1	8	8	knockin on Evans door	Tommy	8	Odell Beckham	WR	NYG
+2	9	1	knockin on Evans door	Tommy	8	Mike Evans	WR	TB
+2	10	2	Promille Boords	Julian	7	Devonta Freeman	RB	ATL
+2	11	3	Los Kaltschalenzentrieros	Matthias	6	A.J. Green	WR	CIN
+2	12	4	Snatchville Lubricators	marco	5	DeMarco Murray	RB	TEN
+2	13	5	WhoDatNation	Marvin	4	Jay Ajayi	RB	PHI
+2	14	6	Every day im Russelln	Simon	3	Jordan Howard	RB	CHI
+2	15	7	WhoDatNation	Marvin	4	Michael Thomas	WR	NO
+2	16	8	Straight Outta Rehab	Benjamin	1	Jordy Nelson	WR	GB
+3	17	1	Straight Outta Rehab	Benjamin	1	T.Y. Hilton	WR	IND
+3	18	2	WhoDatNation	Marvin	4	Leonard Fournette	RB	JAX
+3	19	3	Every day im Russelln	Simon	3	Dez Bryant	WR	DAL
+3	20	4	WhoDatNation	Marvin	4	Doug Baldwin	WR	SEA
+3	21	5	Snatchville Lubricators	marco	5	Aaron Rodgers	QB	GB
+3	22	6	Los Kaltschalenzentrieros	Matthias	6	Lamar Miller	RB	HOU
+3	23	7	Promille Boords	Julian	7	Marshawn Lynch	RB	LV
+3	24	8	knockin on Evans door	Tommy	8	Todd Gurley	RB	LA
+4	25	1	knockin on Evans door	Tommy	8	Rob Gronkowski	TE	NE
+4	26	2	Promille Boords	Julian	7	Davante Adams	WR	GB
+4	27	3	Los Kaltschalenzentrieros	Matthias	6	Tom Brady	QB	NE
+4	28	4	Snatchville Lubricators	marco	5	Spencer Ware	RB	KC
+4	29	5	oGucci United	Erik	2	Amari Cooper	WR	LV
+4	30	6	Every day im Russelln	Simon	3	Isaiah Crowell	RB	CLE
+4	31	7	oGucci United	Erik	2	Travis Kelce	TE	KC
+4	32	8	Straight Outta Rehab	Benjamin	1	Brandin Cooks	WR	NE
+5	33	1	Straight Outta Rehab	Benjamin	1	Christian McCaffrey	RB	CAR
+5	34	2	oGucci United	Erik	2	Terrelle Pryor	WR	WAS
+5	35	3	Every day im Russelln	Simon	3	DeAndre Hopkins	WR	HOU
+5	36	4	WhoDatNation	Marvin	4	Joe Mixon	RB	CIN
+5	37	5	Snatchville Lubricators	marco	5	Tyreek Hill	WR	KC
+5	38	6	Los Kaltschalenzentrieros	Matthias	6	Carlos Hyde	RB	SF
+5	39	7	Promille Boords	Julian	7	Jarvis Landry	WR	MIA
+5	40	8	knockin on Evans door	Tommy	8	Allen Robinson	WR	JAX
+6	41	1	knockin on Evans door	Tommy	8	Bilal Powell	RB	NYJ
+6	42	2	Promille Boords	Julian	7	Demaryius Thomas	WR	DEN
+6	43	3	Los Kaltschalenzentrieros	Matthias	6	Michael Crabtree	WR	LV
+6	44	4	Snatchville Lubricators	marco	5	Jimmy Graham	TE	SEA
+6	45	5	WhoDatNation	Marvin	4	Alshon Jeffery	WR	PHI
+6	46	6	Every day im Russelln	Simon	3	Greg Olsen	TE	CAR
+6	47	7	oGucci United	Erik	2	C.J. Anderson	RB	DEN
+6	48	8	Straight Outta Rehab	Benjamin	1	Jordan Reed	TE	WAS
+7	49	1	Straight Outta Rehab	Benjamin	1	Drew Brees	QB	NO
+7	50	2	oGucci United	Erik	2	Andrew Luck	QB	IND
+7	51	3	Every day im Russelln	Simon	3	Russell Wilson	QB	SEA
+7	52	4	WhoDatNation	Marvin	4	Marcus Mariota	QB	TEN
+7	53	5	Snatchville Lubricators	marco	5	Larry Fitzgerald	WR	ARI
+7	54	6	Los Kaltschalenzentrieros	Matthias	6	Frank Gore	RB	IND
+7	55	7	Promille Boords	Julian	7	Matt Ryan	QB	ATL
+7	56	8	knockin on Evans door	Tommy	8	Julian Edelman	WR	NE
+8	57	1	knockin on Evans door	Tommy	8	Tevin Coleman	RB	ATL
+8	58	2	Promille Boords	Julian	7	Golden Tate	WR	DET
+8	59	3	Los Kaltschalenzentrieros	Matthias	6	Keenan Allen	WR	LAC
+8	60	4	Snatchville Lubricators	marco	5	Kansas City Chiefs	DEF	KC
+8	61	5	oGucci United	Erik	2	Ty Montgomery	RB	GB
+8	62	6	Every day im Russelln	Simon	3	Mark Ingram	RB	NO
+8	63	7	oGucci United	Erik	2	Denver Broncos	DEF	DEN
+8	64	8	Straight Outta Rehab	Benjamin	1	Sammy Watkins	WR	LA
+9	65	1	Straight Outta Rehab	Benjamin	1	Dalvin Cook	RB	MIN
+9	66	2	oGucci United	Erik	2	Stefon Diggs	WR	MIN
+9	67	3	Every day im Russelln	Simon	3	Seattle Seahawks	DEF	SEA
+9	68	4	WhoDatNation	Marvin	4	LeGarrette Blount	RB	PHI
+9	69	5	Snatchville Lubricators	marco	5	Mike Gillislee	RB	NE
+9	70	6	Los Kaltschalenzentrieros	Matthias	6	Emmanuel Sanders	WR	DEN
+9	71	7	Promille Boords	Julian	7	Paul Perkins	RB	NYG
+9	72	8	knockin on Evans door	Tommy	8	DeSean Jackson	WR	TB
+10	73	1	knockin on Evans door	Tommy	8	Rob Kelley	RB	WAS
+10	74	2	Promille Boords	Julian	7	Kelvin Benjamin	WR	BUF
+10	75	3	Los Kaltschalenzentrieros	Matthias	6	Danny Woodhead	RB	BAL
+10	76	4	Snatchville Lubricators	marco	5	Mike Wallace	WR	BAL
+10	77	5	WhoDatNation	Marvin	4	Delanie Walker	TE	TEN
+10	78	6	Every day im Russelln	Simon	3	Donte Moncrief	WR	IND
+10	79	7	WhoDatNation	Marvin	4	Eddie Lacy	RB	SEA
+10	80	8	Straight Outta Rehab	Benjamin	1	Martavis Bryant	WR	PIT
+11	81	1	Straight Outta Rehab	Benjamin	1	Doug Martin	RB	TB
+11	82	2	WhoDatNation	Marvin	4	Minnesota Vikings	DEF	MIN
+11	83	3	Every day im Russelln	Simon	3	Latavius Murray	RB	MIN
+11	84	4	WhoDatNation	Marvin	4	Samaje Perine	RB	WAS
+11	85	5	Snatchville Lubricators	marco	5	Jeremy Hill	RB	CIN
+11	86	6	Los Kaltschalenzentrieros	Matthias	6	Tyler Eifert	TE	CIN
+11	87	7	Promille Boords	Julian	7	Kyle Rudolph	TE	MIN
+11	88	8	knockin on Evans door	Tommy	8	Houston Texans	DEF	HOU
+12	89	1	knockin on Evans door	Tommy	8	Matt Forte	RB	NYJ
+12	90	2	Promille Boords	Julian	7	Willie Snead	WR	NO
+12	91	3	Los Kaltschalenzentrieros	Matthias	6	Ameer Abdullah	RB	DET
+12	92	4	Snatchville Lubricators	marco	5	Justin Tucker	K	BAL
+12	93	5	WhoDatNation	Marvin	4	Corey Davis	WR	TEN
+12	94	6	Every day im Russelln	Simon	3	Brandon Marshall	WR	NYG
+12	95	7	oGucci United	Erik	2	Jamison Crowder	WR	WAS
+12	96	8	Straight Outta Rehab	Benjamin	1	Adrian Peterson	RB	ARI
+13	97	1	Straight Outta Rehab	Benjamin	1	New York Giants	DEF	NYG
+13	98	2	oGucci United	Erik	2	Stephen Gostkowski	K	NE
+13	99	3	Every day im Russelln	Simon	3	Matt Bryant	K	ATL
+13	100	4	oGucci United	Erik	2	Derrick Henry	RB	TEN
+13	101	5	Snatchville Lubricators	marco	5	Tyrell Williams	WR	LAC
+13	102	6	Los Kaltschalenzentrieros	Matthias	6	Pierre Garcon	WR	SF
+13	103	7	Promille Boords	Julian	7	Jonathan Stewart	RB	CAR
+13	104	8	knockin on Evans door	Tommy	8	Mason Crosby	K	GB
+14	105	1	knockin on Evans door	Tommy	8	Derek Carr	QB	LV
+14	106	2	Promille Boords	Julian	7	Atlanta Falcons	DEF	ATL
+14	107	3	Los Kaltschalenzentrieros	Matthias	6	Eric Decker	WR	TEN
+14	108	4	Snatchville Lubricators	marco	5	Martellus Bennett	TE	NE
+14	109	5	WhoDatNation	Marvin	4	Wil Lutz	K	NO
+14	110	6	Every day im Russelln	Simon	3	Kenny Britt	WR	NE
+14	111	7	oGucci United	Erik	2	Cameron Meredith	WR	CHI
+14	112	8	Straight Outta Rehab	Benjamin	1	Dan Bailey	K	DAL
+15	113	1	Straight Outta Rehab	Benjamin	1	Jeremy Maclin	WR	BAL
+15	114	2	oGucci United	Erik	2	Cam Newton	QB	CAR
+15	115	3	Every day im Russelln	Simon	3	Kareem Hunt	RB	KC
+15	116	4	WhoDatNation	Marvin	4	David Njoku	TE	CLE
+15	117	5	Snatchville Lubricators	marco	5	James White	RB	NE
+15	118	6	Los Kaltschalenzentrieros	Matthias	6	New England Patriots	DEF	NE
+15	119	7	Promille Boords	Julian	7	Brandon McManus	K	DEN
+15	120	8	knockin on Evans door	Tommy	8	Indianapolis Colts	DEF	IND
+
