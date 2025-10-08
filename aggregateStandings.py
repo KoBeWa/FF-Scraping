@@ -3,7 +3,8 @@ import os
 from utils import get_number_of_owners
 from constants import leagueID, standings_directory
 
-# Aggregates all yearly standings into a single all-time CSV file
+# Aggregates season standings (as scraped from each year)
+# into a single all-time standings summary
 
 aggregated_data = {}
 
@@ -23,13 +24,12 @@ for filename in os.listdir(standings_directory):
             if not manager:
                 continue
 
-            # Initialisieren, wenn neuer Manager
             if manager not in aggregated_data:
                 aggregated_data[manager] = {
                     "PointsFor": 0.0,
                     "PointsAgainst": 0.0,
-                    "Moves": 0.0,
-                    "Trades": 0.0,
+                    "Moves": 0,
+                    "Trades": 0,
                     "Wins": 0,
                     "Losses": 0,
                     "Ties": 0,
@@ -43,20 +43,28 @@ for filename in os.listdir(standings_directory):
             data = aggregated_data[manager]
             data["Seasons"] += 1
 
-            # Zahlen sicher parsen
-            def to_float(x): 
-                try: return float(x.replace(",", "").strip())
-                except: return 0.0
+            # Helferfunktionen
+            def to_float(x):
+                try:
+                    return float(str(x).replace(",", "").strip())
+                except:
+                    return 0.0
 
-            # Punkte, Moves etc.
+            def to_int(x):
+                try:
+                    return int(float(str(x).strip()))
+                except:
+                    return 0
+
+            # Summierungen
             data["PointsFor"] += to_float(row.get("PointsFor", 0))
             data["PointsAgainst"] += to_float(row.get("PointsAgainst", 0))
-            data["Moves"] += to_float(row.get("Moves", 0))
-            data["Trades"] += to_float(row.get("Trades", 0))
+            data["Moves"] += to_int(row.get("Moves", 0))
+            data["Trades"] += to_int(row.get("Trades", 0))
             data["DraftPosition_sum"] += to_float(row.get("DraftPosition", 0))
 
-            # Record z. B. "8-5-0"
-            record = row.get("Record", "")
+            # Record "11-3-0"
+            record = str(row.get("Record", "")).strip()
             if record:
                 parts = record.split("-")
                 if len(parts) >= 2:
@@ -65,9 +73,9 @@ for filename in os.listdir(standings_directory):
                     if len(parts) == 3:
                         data["Ties"] += int(parts[2])
 
-            # Playoff-Auswertung
+            # PlayoffRank auswerten
             try:
-                playoff_rank = int(row.get("PlayoffRank", 0))
+                playoff_rank = int(float(row.get("PlayoffRank", 0)))
                 if playoff_rank == 1:
                     data["Playoffs"] += 1
                     data["Championships"] += 1
@@ -79,12 +87,13 @@ for filename in os.listdir(standings_directory):
                 pass
 
 
-# CSV-Ausgabe
+# Ausgabe in CSV
 output_path = "./output/aggregated_standings_data.csv"
 with open(output_path, "w", newline='', encoding='utf-8') as f:
     fieldnames = [
         "ManagerName",
-        "PointsFor", "PointsAgainst", "Moves", "Trades",
+        "PointsFor", "PointsAgainst",
+        "Moves", "Trades",
         "Wins", "Losses", "Ties",
         "Championships", "Playoffs", "Sackos",
         "DraftPosition", "Seasons"
@@ -93,21 +102,23 @@ with open(output_path, "w", newline='', encoding='utf-8') as f:
     writer.writeheader()
 
     for manager, d in aggregated_data.items():
+        avg_draft = round(d["DraftPosition_sum"] / d["Seasons"], 1) if d["Seasons"] > 0 else 0
         row = {
             "ManagerName": manager,
             "PointsFor": round(d["PointsFor"], 2),
             "PointsAgainst": round(d["PointsAgainst"], 2),
-            "Moves": int(d["Moves"]),
-            "Trades": int(d["Trades"]),
+            "Moves": d["Moves"],
+            "Trades": d["Trades"],
             "Wins": d["Wins"],
             "Losses": d["Losses"],
             "Ties": d["Ties"],
             "Championships": d["Championships"],
             "Playoffs": d["Playoffs"],
             "Sackos": d["Sackos"],
-            "DraftPosition": round(d["DraftPosition_sum"] / d["Seasons"], 1) if d["Seasons"] > 0 else 0,
+            "DraftPosition": avg_draft,
             "Seasons": d["Seasons"]
         }
         writer.writerow(row)
 
 print(f"✅ Aggregated standings written to {output_path}")
+
