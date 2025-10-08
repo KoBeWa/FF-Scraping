@@ -60,30 +60,30 @@ jobs:
         if: ${{ inputs.mode == 'nfl_drafts' }}
         run: |
           python - << 'PY'
-import os, sys, pathlib, urllib.parse
-from cookieString import get_session
-
-lid = os.environ.get("LEAGUE_ID")
-yr  = os.environ.get("LEAGUE_END_YEAR")  # nimm zum Test das jüngste Jahr
-base = f"https://fantasy.nfl.com/league/{lid}/history/{yr}/draftresults"
-qs   = {"draftResultsDetail":"0","draftResultsTab":"round","draftResultsType":"results"}
-url  = base + "?" + urllib.parse.urlencode(qs)
-
-s = get_session()
-r = s.get(url, timeout=30, allow_redirects=True)
-print("HTTP:", r.status_code, "URL:", r.url)
-
-pathlib.Path("debug").mkdir(exist_ok=True, parents=True)
-pathlib.Path("debug/draft_precheck.html").write_text(r.text, encoding="utf-8")
-
-txt = r.text.lower()
-hard_redirect = ("/login" in r.url) or ("/signin" in r.url)
-looks_like_draft = any(w in txt for w in ("draft results","round","overall pick","drafted by","draft grade","pick"))
-
-if hard_redirect or not looks_like_draft:
-    sys.exit("Cookie ungültig/abgelaufen → siehe debug/draft_precheck.html")
-print("OK: Draftseite erreichbar & authentifiziert.")
-PY
+          import os, sys, pathlib, urllib.parse
+          from cookieString import get_session
+          
+          lid = os.environ.get("LEAGUE_ID")
+          yr  = os.environ.get("LEAGUE_END_YEAR")  # nimm zum Test das jüngste Jahr
+          base = f"https://fantasy.nfl.com/league/{lid}/history/{yr}/draftresults"
+          qs   = {"draftResultsDetail":"0","draftResultsTab":"round","draftResultsType":"results"}
+          url  = base + "?" + urllib.parse.urlencode(qs)
+          
+          s = get_session()
+          r = s.get(url, timeout=30, allow_redirects=True)
+          print("HTTP:", r.status_code, "URL:", r.url)
+          
+          pathlib.Path("debug").mkdir(exist_ok=True, parents=True)
+          pathlib.Path("debug/draft_precheck.html").write_text(r.text, encoding="utf-8")
+          
+          txt = r.text.lower()
+          hard_redirect = ("/login" in r.url) or ("/signin" in r.url)
+          looks_like_draft = any(w in txt for w in ("draft results","round","overall pick","drafted by","draft grade","pick"))
+          
+          if hard_redirect or not looks_like_draft:
+              sys.exit("Cookie ungültig/abgelaufen → siehe debug/draft_precheck.html")
+          print("OK: Draftseite erreichbar & authentifiziert.")
+          PY
 
       - name: Run scraper
         env:
