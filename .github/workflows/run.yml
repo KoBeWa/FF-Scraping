@@ -46,35 +46,35 @@ jobs:
           echo "LEAGUE_ID=$LEAGUE_ID"
           echo "YEARS: $LEAGUE_START_YEAR..$LEAGUE_END_YEAR"
           python - << 'PY'
-import os, sys
-print("NFL_COOKIE length:", len(os.getenv("NFL_COOKIE","")))
-if not os.getenv("LEAGUE_ID"):
-    print("ERROR: LEAGUE_ID fehlt"); sys.exit(1)
-try:
-    from cookieString import have_cookie
-except Exception as e:
-    print("ERROR: cookieString import fehlgeschlagen:", e); sys.exit(1)
-if not have_cookie():
-    print("ERROR: Kein gültiger NFL_COOKIE gefunden (ENV NFL_COOKIE oder data/nfl_cookie.txt)"); sys.exit(2)
-print("OK: Cookie vorhanden")
-PY
+          import os, sys
+          print("NFL_COOKIE length:", len(os.getenv("NFL_COOKIE","")))
+          if not os.getenv("LEAGUE_ID"):
+              print("ERROR: LEAGUE_ID fehlt"); sys.exit(1)
+          try:
+              from cookieString import have_cookie
+          except Exception as e:
+              print("ERROR: cookieString import fehlgeschlagen:", e); sys.exit(1)
+          if not have_cookie():
+              print("ERROR: Kein gültiger NFL_COOKIE gefunden (ENV NFL_COOKIE oder data/nfl_cookie.txt)"); sys.exit(2)
+          print("OK: Cookie vorhanden")
+          PY
 
       - name: Quick sanity GET (HTML dump)
         run: |
           python - << 'PY'
-from cookieString import get_session
-import os, pathlib, sys
-s = get_session()
-url = f"https://fantasy.nfl.com/league/{os.environ['LEAGUE_ID']}/history/2021/standings"
-r = s.get(url, timeout=30, allow_redirects=True)
-print("HTTP:", r.status_code, r.url)
-pathlib.Path("debug").mkdir(exist_ok=True)
-pathlib.Path("debug/first_page.html").write_text(r.text, encoding="utf-8")
-txt = r.text.lower()
-if ("sign in" in txt) or ("signin" in txt) or ("login" in txt):
-    sys.exit("Sieht nach Login-Seite aus → Cookie ungültig/abgelaufen.")
-print("OK: Seite scheint authentifiziert.")
-PY
+          from cookieString import get_session
+          import os, pathlib, sys
+          s = get_session()
+          url = f"https://fantasy.nfl.com/league/{os.environ['LEAGUE_ID']}/history/2021/standings"
+          r = s.get(url, timeout=30, allow_redirects=True)
+          print("HTTP:", r.status_code, r.url)
+          pathlib.Path("debug").mkdir(exist_ok=True)
+          pathlib.Path("debug/first_page.html").write_text(r.text, encoding="utf-8")
+          txt = r.text.lower()
+          if ("sign in" in txt) or ("signin" in txt) or ("login" in txt):
+              sys.exit("Sieht nach Login-Seite aus → Cookie ungültig/abgelaufen.")
+          print("OK: Seite scheint authentifiziert.")
+          PY
 
       - name: Run case
         env:
