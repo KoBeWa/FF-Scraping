@@ -184,7 +184,7 @@ def main():
     agg = defaultdict(lambda: {
         "PF":0.0,"PA":0.0,"Moves":0.0,"Trades":0.0,
         "W":0,"L":0,"T":0,"Championships":0,"Playoffs":0,"Sackos":0,
-        "DP_sum":0.0,"DP_n":0,"Seasons":0,"Finals":0,"Toiletbowls":0, 
+        "DP_sum":0.0,"DP_n":0,"Seasons":0,"Finals":0,"ToiletBowls":0, 
     })
 
     season_dirs = sorted([p for p in OUT_DIR.iterdir() if p.is_dir() and p.name.isdigit()], key=lambda p: int(p.name))
