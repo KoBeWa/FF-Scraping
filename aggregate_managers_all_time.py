@@ -184,7 +184,7 @@ def main():
     agg = defaultdict(lambda: {
         "PF":0.0,"PA":0.0,"Moves":0.0,"Trades":0.0,
         "W":0,"L":0,"T":0,"Championships":0,"Playoffs":0,"Sackos":0,
-        "DP_sum":0.0,"DP_n":0,"Seasons":0
+        "DP_sum":0.0,"DP_n":0,"Seasons":0,"Finals":0,"Toiletbowls":0, 
     })
 
     season_dirs = sorted([p for p in OUT_DIR.iterdir() if p.is_dir() and p.name.isdigit()], key=lambda p: int(p.name))
@@ -237,6 +237,10 @@ def main():
             # „Sacko“ hier optional weitergeführt: nimm Rank 8 als „Sacko“
             if pr == 8:
                 agg[m]["Sackos"] += 1
+            if pr in (1, 2):
+                agg[m]["Finals"] += 1
+            if pr in (7, 8):
+                agg[m]["ToiletBowls"] += 1
 
         for m_raw, seed in seeds.items():
             if 1 <= seed <= 4:  # nur Top-4 als Playoff-Teilnahme
@@ -252,7 +256,7 @@ def main():
     out_path = ALL_TIME_DIR / "aggregated_standings.tsv"
     header = [
         "ManagerName","PointsFor","PointsAgainst","Moves","Trades",
-        "Wins","Losses","Ties","Championships","Playoffs","Sackos",
+        "Wins","Losses","Ties","Championships","Playoffs","Finals","ToiletBowls","Sackos",
         "DraftPosition","Seasons"
     ]
 
@@ -266,7 +270,7 @@ def main():
             f"{s['Moves']:.1f}",
             f"{s['Trades']:.1f}",
             s["W"], s["L"], s["T"],
-            s["Championships"], s["Playoffs"], s["Sackos"],
+            s["Championships"], s["Playoffs"], s["Finals"], s["ToiletBowls"], s["Sackos"],
             f"{dp_avg:.1f}" if dp_avg != "" else "",
             s["Seasons"]
         ])
