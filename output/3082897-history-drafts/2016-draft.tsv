@@ -1,121 +1,121 @@
-Round	Overall	PickInRound	TeamName	ManagerName	OriginalSlot	Player	Pos	NFLTeam
-1	1	1	Kessinho10	Marco	1	Antonio Brown	WR	PIT
-1	2	2	Make Fantasy Great Again	Benjamin	2	Odell Beckham	WR	NYG
-1	3	3	The walking DEZ	Tommy	3	Adrian Peterson	RB	MIN
-1	4	4	Russell and the Rapers AG	Simon	4	Julio Jones	WR	ATL
-1	5	5	oG United	Erik	5	Todd Gurley	RB	LA
-1	6	6	WhoDatNation	Marvin	6	David Johnson	RB	ARI
-1	7	7	Promille Boords	Julian	7	A.J. Green	WR	CIN
-1	8	8	Team Klosterschueler	Matthias	8	Rob Gronkowski	TE	NE
-2	9	1	Team Klosterschueler	Matthias	1	Lamar Miller	RB	HOU
-2	10	2	Promille Boords	Julian	2	Devonta Freeman	RB	ATL
-2	11	3	WhoDatNation	Marvin	3	DeAndre Hopkins	WR	HOU
-2	12	4	oG United	Erik	4	Ezekiel Elliott	RB	DAL
-2	13	5	Russell and the Rapers AG	Simon	5	Allen Robinson	WR	JAX
-2	14	6	The walking DEZ	Tommy	6	Jamaal Charles	RB	KC
-2	15	7	Make Fantasy Great Again	Benjamin	7	Mark Ingram	RB	NO
-2	16	8	Kessinho10	Marco	8	Doug Martin	RB	TB
-3	17	1	Kessinho10	Marco	1	Jordy Nelson	WR	GB
-3	18	2	Make Fantasy Great Again	Benjamin	2	Brandon Marshall	WR	NYJ
-3	19	3	The walking DEZ	Tommy	3	Dez Bryant	WR	DAL
-3	20	4	Russell and the Rapers AG	Simon	4	Eddie Lacy	RB	GB
-3	21	5	oG United	Erik	5	Le'Veon Bell	RB	PIT
-3	22	6	WhoDatNation	Marvin	6	Amari Cooper	WR	LV
-3	23	7	Promille Boords	Julian	7	Demaryius Thomas	WR	DEN
-3	24	8	Team Klosterschueler	Matthias	8	Keenan Allen	WR	LAC
-4	25	1	Team Klosterschueler	Matthias	1	Aaron Rodgers	QB	GB
-4	26	2	Promille Boords	Julian	2	LeSean McCoy	RB	BUF
-4	27	3	WhoDatNation	Marvin	3	Cam Newton	QB	CAR
-4	28	4	oG United	Erik	4	Mike Evans	WR	TB
-4	29	5	Russell and the Rapers AG	Simon	5	Russell Wilson	QB	SEA
-4	30	6	The walking DEZ	Tommy	6	Sammy Watkins	WR	BUF
-4	31	7	Make Fantasy Great Again	Benjamin	7	Matt Forte	RB	NYJ
-4	32	8	Kessinho10	Marco	8	Carlos Hyde	RB	SF
-5	33	1	Kessinho10	Marco	1	Jordan Reed	TE	WAS
-5	34	2	Make Fantasy Great Again	Benjamin	2	Doug Baldwin	WR	SEA
-5	35	3	The walking DEZ	Tommy	3	Brandin Cooks	WR	NO
-5	36	4	Russell and the Rapers AG	Simon	4	Greg Olsen	TE	CAR
-5	37	5	oG United	Erik	5	Alshon Jeffery	WR	CHI
-5	38	6	WhoDatNation	Marvin	6	T.Y. Hilton	WR	IND
-5	39	7	Promille Boords	Julian	7	Jarvis Landry	WR	MIA
-5	40	8	Team Klosterschueler	Matthias	8	Julian Edelman	WR	NE
-6	41	1	Team Klosterschueler	Matthias	1	C.J. Anderson	RB	DEN
-6	42	2	Promille Boords	Julian	2	Carson Palmer	QB	ARI
-6	43	3	WhoDatNation	Marvin	3	Ryan Mathews	RB	PHI
-6	44	4	oG United	Erik	4	Jeremy Maclin	WR	KC
-6	45	5	Russell and the Rapers AG	Simon	5	Jonathan Stewart	RB	CAR
-6	46	6	The walking DEZ	Tommy	6	Latavius Murray	RB	LV
-6	47	7	Make Fantasy Great Again	Benjamin	7	Ben Roethlisberger	QB	PIT
-6	48	8	Kessinho10	Marco	8	Drew Brees	QB	NO
-7	49	1	Kessinho10	Marco	1	Dion Lewis	RB	NE
-7	50	2	Make Fantasy Great Again	Benjamin	2	Travis Kelce	TE	KC
-7	51	3	The walking DEZ	Tommy	3	Jimmy Graham	TE	SEA
-7	52	4	Russell and the Rapers AG	Simon	4	Eric Decker	WR	NYJ
-7	53	5	oG United	Erik	5	Tyler Eifert	TE	CIN
-7	54	6	WhoDatNation	Marvin	6	Andrew Luck	QB	IND
-7	55	7	Promille Boords	Julian	7	Gary Barnidge	TE	CLE
-7	56	8	Team Klosterschueler	Matthias	8	Stephen Gostkowski	K	NE
-8	57	1	Team Klosterschueler	Matthias	1	Donte Moncrief	WR	IND
-8	58	2	Promille Boords	Julian	2	Emmanuel Sanders	WR	DEN
-8	59	3	WhoDatNation	Marvin	3	Thomas Rawls	RB	SEA
-8	60	4	oG United	Erik	4	Seattle Seahawks	DEF	SEA
-8	61	5	Russell and the Rapers AG	Simon	5	Michael Floyd	WR	NE
-8	62	6	The walking DEZ	Tommy	6	Larry Fitzgerald	WR	ARI
-8	63	7	Make Fantasy Great Again	Benjamin	7	Denver Broncos	DEF	DEN
-8	64	8	Kessinho10	Marco	8	Arizona Cardinals	DEF	ARI
-9	65	1	Kessinho10	Marco	1	Kelvin Benjamin	WR	CAR
-9	66	2	Make Fantasy Great Again	Benjamin	2	Tom Brady	QB	NE
-9	67	3	The walking DEZ	Tommy	3	Kansas City Chiefs	DEF	KC
-9	68	4	Russell and the Rapers AG	Simon	4	Carolina Panthers	DEF	CAR
-9	69	5	oG United	Erik	5	Randall Cobb	WR	GB
-9	70	6	WhoDatNation	Marvin	6	Coby Fleener	TE	NO
-9	71	7	Promille Boords	Julian	7	Houston Texans	DEF	HOU
-9	72	8	Team Klosterschueler	Matthias	8	DeMarco Murray	RB	TEN
-10	73	1	Team Klosterschueler	Matthias	1	Laquon Treadwell	WR	MIN
-10	74	2	Promille Boords	Julian	2	Chris Ivory	RB	JAX
-10	75	3	WhoDatNation	Marvin	3	Melvin Gordon	RB	LAC
-10	76	4	oG United	Erik	4	Dorial Green-Beckham	WR	PHI
-10	77	5	Russell and the Rapers AG	Simon	5	Jeremy Hill	RB	CIN
-10	78	6	The walking DEZ	Tommy	6	John Brown	WR	ARI
-10	79	7	Make Fantasy Great Again	Benjamin	7	DeAngelo Williams	RB	PIT
-10	80	8	Kessinho10	Marco	8	Arian Foster	RB	MIA
-11	81	1	Kessinho10	Marco	1	Derek Carr	QB	LV
-11	82	2	Make Fantasy Great Again	Benjamin	2	Chandler Catanzaro	K	ARI
-11	83	3	The walking DEZ	Tommy	3	Tony Romo	QB	DAL
-11	84	4	Russell and the Rapers AG	Simon	4	Michael Crabtree	WR	LV
-11	85	5	oG United	Erik	5	Frank Gore	RB	IND
-11	86	6	WhoDatNation	Marvin	6	Tyler Lockett	WR	SEA
-11	87	7	Promille Boords	Julian	7	Jordan Matthews	WR	PHI
-11	88	8	Team Klosterschueler	Matthias	8	Matt Jones	RB	WAS
-12	89	1	Team Klosterschueler	Matthias	1	Tavon Austin	WR	LA
-12	90	2	Promille Boords	Julian	2	Danny Woodhead	RB	LAC
-12	91	3	WhoDatNation	Marvin	3	Golden Tate	WR	DET
-12	92	4	oG United	Erik	4	Jeremy Langford	RB	CHI
-12	93	5	Russell and the Rapers AG	Simon	5	Steven Hauschka	K	SEA
-12	94	6	The walking DEZ	Tommy	6	Cairo Santos	K	KC
-12	95	7	Make Fantasy Great Again	Benjamin	7	Jay Ajayi	RB	MIA
-12	96	8	Kessinho10	Marco	8	Cody Kessler	QB	CLE
-13	97	1	Kessinho10	Marco	1	Brandon LaFell	WR	CIN
-13	98	2	Make Fantasy Great Again	Benjamin	2	Giovani Bernard	RB	CIN
-13	99	3	The walking DEZ	Tommy	3	Moritz Boehringer	WR	MIN
-13	100	4	Russell and the Rapers AG	Simon	4	Andy Dalton	QB	CIN
-13	101	5	oG United	Erik	5	Duke Johnson	RB	CLE
-13	102	6	WhoDatNation	Marvin	6	Dan Bailey	K	DAL
-13	103	7	Promille Boords	Julian	7	Eli Manning	QB	NYG
-13	104	8	Team Klosterschueler	Matthias	8	Graham Gano	K	CAR
-14	105	1	Team Klosterschueler	Matthias	1	Pittsburgh Steelers	DEF	PIT
-14	106	2	Promille Boords	Julian	2	Delanie Walker	TE	TEN
-14	107	3	WhoDatNation	Marvin	3	New Orleans Saints	DEF	NO
-14	108	4	oG United	Erik	4	Ladarius Green	TE	PIT
-14	109	5	Russell and the Rapers AG	Simon	5	Antonio Gates	TE	LAC
-14	110	6	The walking DEZ	Tommy	6	Hunter Henry	TE	LAC
-14	111	7	Make Fantasy Great Again	Benjamin	7	Corey Coleman	WR	CLE
-14	112	8	Kessinho10	Marco	8	Brandon McManus	K	DEN
-15	113	1	Kessinho10	Marco	1	DeSean Jackson	WR	WAS
-15	114	2	Make Fantasy Great Again	Benjamin	2	Sterling Shepard	WR	NYG
-15	115	3	The walking DEZ	Tommy	3	Jameis Winston	QB	TB
-15	116	4	Russell and the Rapers AG	Simon	4	Ameer Abdullah	RB	DET
-15	117	5	oG United	Erik	5	Breshad Perriman	WR	BAL
-15	118	6	WhoDatNation	Marvin	6	Colin Kaepernick	QB	SF
-15	119	7	Promille Boords	Julian	7	Mason Crosby	K	GB
-15	120	8	Team Klosterschueler	Matthias	8	Blake Bortles	QB	JAX
+Round	Overall	PickInRound	ManagerName	Player	Pos	NFLTeam
+1	1	1	Kessi	Antonio Brown	WR	PIT
+1	2	2	Benni	Odell Beckham	WR	NYG
+1	3	3	Tommy	Adrian Peterson	RB	MIN
+1	4	4	Simi	Julio Jones	WR	ATL
+1	5	5	Erik	Todd Gurley	RB	LA
+1	6	6	Marv	David Johnson	RB	ARI
+1	7	7	Juschka	A.J. Green	WR	CIN
+1	8	8	Ritz	Rob Gronkowski	TE	NE
+2	9	1	Ritz	Lamar Miller	RB	HOU
+2	10	2	Juschka	Devonta Freeman	RB	ATL
+2	11	3	Marv	DeAndre Hopkins	WR	HOU
+2	12	4	Erik	Ezekiel Elliott	RB	DAL
+2	13	5	Simi	Allen Robinson	WR	JAX
+2	14	6	Tommy	Jamaal Charles	RB	KC
+2	15	7	Benni	Mark Ingram	RB	NO
+2	16	8	Kessi	Doug Martin	RB	TB
+3	17	1	Kessi	Jordy Nelson	WR	GB
+3	18	2	Benni	Brandon Marshall	WR	NYJ
+3	19	3	Tommy	Dez Bryant	WR	DAL
+3	20	4	Simi	Eddie Lacy	RB	GB
+3	21	5	Erik	Le'Veon Bell	RB	PIT
+3	22	6	Marv	Amari Cooper	WR	LV
+3	23	7	Juschka	Demaryius Thomas	WR	DEN
+3	24	8	Ritz	Keenan Allen	WR	LAC
+4	25	1	Ritz	Aaron Rodgers	QB	GB
+4	26	2	Juschka	LeSean McCoy	RB	BUF
+4	27	3	Marv	Cam Newton	QB	CAR
+4	28	4	Erik	Mike Evans	WR	TB
+4	29	5	Simi	Russell Wilson	QB	SEA
+4	30	6	Tommy	Sammy Watkins	WR	BUF
+4	31	7	Benni	Matt Forte	RB	NYJ
+4	32	8	Kessi	Carlos Hyde	RB	SF
+5	33	1	Kessi	Jordan Reed	TE	WAS
+5	34	2	Benni	Doug Baldwin	WR	SEA
+5	35	3	Tommy	Brandin Cooks	WR	NO
+5	36	4	Simi	Greg Olsen	TE	CAR
+5	37	5	Erik	Alshon Jeffery	WR	CHI
+5	38	6	Marv	T.Y. Hilton	WR	IND
+5	39	7	Juschka	Jarvis Landry	WR	MIA
+5	40	8	Ritz	Julian Edelman	WR	NE
+6	41	1	Ritz	C.J. Anderson	RB	DEN
+6	42	2	Juschka	Carson Palmer	QB	ARI
+6	43	3	Marv	Ryan Mathews	RB	PHI
+6	44	4	Erik	Jeremy Maclin	WR	KC
+6	45	5	Simi	Jonathan Stewart	RB	CAR
+6	46	6	Tommy	Latavius Murray	RB	LV
+6	47	7	Benni	Ben Roethlisberger	QB	PIT
+6	48	8	Kessi	Drew Brees	QB	NO
+7	49	1	Kessi	Dion Lewis	RB	NE
+7	50	2	Benni	Travis Kelce	TE	KC
+7	51	3	Tommy	Jimmy Graham	TE	SEA
+7	52	4	Simi	Eric Decker	WR	NYJ
+7	53	5	Erik	Tyler Eifert	TE	CIN
+7	54	6	Marv	Andrew Luck	QB	IND
+7	55	7	Juschka	Gary Barnidge	TE	CLE
+7	56	8	Ritz	Stephen Gostkowski	K	NE
+8	57	1	Ritz	Donte Moncrief	WR	IND
+8	58	2	Juschka	Emmanuel Sanders	WR	DEN
+8	59	3	Marv	Thomas Rawls	RB	SEA
+8	60	4	Erik	Seattle Seahawks	DEF	SEA
+8	61	5	Simi	Michael Floyd	WR	NE
+8	62	6	Tommy	Larry Fitzgerald	WR	ARI
+8	63	7	Benni	Denver Broncos	DEF	DEN
+8	64	8	Kessi	Arizona Cardinals	DEF	ARI
+9	65	1	Kessi	Kelvin Benjamin	WR	CAR
+9	66	2	Benni	Tom Brady	QB	NE
+9	67	3	Tommy	Kansas City Chiefs	DEF	KC
+9	68	4	Simi	Carolina Panthers	DEF	CAR
+9	69	5	Erik	Randall Cobb	WR	GB
+9	70	6	Marv	Coby Fleener	TE	NO
+9	71	7	Juschka	Houston Texans	DEF	HOU
+9	72	8	Ritz	DeMarco Murray	RB	TEN
+10	73	1	Ritz	Laquon Treadwell	WR	MIN
+10	74	2	Juschka	Chris Ivory	RB	JAX
+10	75	3	Marv	Melvin Gordon	RB	LAC
+10	76	4	Erik	Dorial Green-Beckham	WR	PHI
+10	77	5	Simi	Jeremy Hill	RB	CIN
+10	78	6	Tommy	John Brown	WR	ARI
+10	79	7	Benni	DeAngelo Williams	RB	PIT
+10	80	8	Kessi	Arian Foster	RB	MIA
+11	81	1	Kessi	Derek Carr	QB	LV
+11	82	2	Benni	Chandler Catanzaro	K	ARI
+11	83	3	Tommy	Tony Romo	QB	DAL
+11	84	4	Simi	Michael Crabtree	WR	LV
+11	85	5	Erik	Frank Gore	RB	IND
+11	86	6	Marv	Tyler Lockett	WR	SEA
+11	87	7	Juschka	Jordan Matthews	WR	PHI
+11	88	8	Ritz	Matt Jones	RB	WAS
+12	89	1	Ritz	Tavon Austin	WR	LA
+12	90	2	Juschka	Danny Woodhead	RB	LAC
+12	91	3	Marv	Golden Tate	WR	DET
+12	92	4	Erik	Jeremy Langford	RB	CHI
+12	93	5	Simi	Steven Hauschka	K	SEA
+12	94	6	Tommy	Cairo Santos	K	KC
+12	95	7	Benni	Jay Ajayi	RB	MIA
+12	96	8	Kessi	Cody Kessler	QB	CLE
+13	97	1	Kessi	Brandon LaFell	WR	CIN
+13	98	2	Benni	Giovani Bernard	RB	CIN
+13	99	3	Tommy	Moritz Boehringer	WR	MIN
+13	100	4	Simi	Andy Dalton	QB	CIN
+13	101	5	Erik	Duke Johnson	RB	CLE
+13	102	6	Marv	Dan Bailey	K	DAL
+13	103	7	Juschka	Eli Manning	QB	NYG
+13	104	8	Ritz	Graham Gano	K	CAR
+14	105	1	Ritz	Pittsburgh Steelers	DEF	PIT
+14	106	2	Juschka	Delanie Walker	TE	TEN
+14	107	3	Marv	New Orleans Saints	DEF	NO
+14	108	4	Erik	Ladarius Green	TE	PIT
+14	109	5	Simi	Antonio Gates	TE	LAC
+14	110	6	Tommy	Hunter Henry	TE	LAC
+14	111	7	Benni	Corey Coleman	WR	CLE
+14	112	8	Kessi	Brandon McManus	K	DEN
+15	113	1	Kessi	DeSean Jackson	WR	WAS
+15	114	2	Benni	Sterling Shepard	WR	NYG
+15	115	3	Tommy	Jameis Winston	QB	TB
+15	116	4	Simi	Ameer Abdullah	RB	DET
+15	117	5	Erik	Breshad Perriman	WR	BAL
+15	118	6	Marv	Colin Kaepernick	QB	SF
+15	119	7	Juschka	Mason Crosby	K	GB
+15	120	8	Ritz	Blake Bortles	QB	JAX
