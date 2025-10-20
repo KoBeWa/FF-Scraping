@@ -1,0 +1,72 @@
+name: Aggregate Playoff Standings
+
+on:
+  push:
+    paths:
+      - "output/3082897-history-standings/playoffs-*.tsv"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write  # nötig für Commit & Push
+
+jobs:
+  aggregate_playoffs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify playoff TSV files exist
+        run: |
+          set -e
+          ls -l output/3082897-history-standings || true
+          COUNT=$(ls -1 output/3082897-history-standings/playoffs-*.tsv 2>/dev/null | wc -l || echo 0)
+          if [ "$COUNT" -eq 0 ]; then
+            echo "Keine playoff-TSV-Dateien gefunden."
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-playoffs
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -V
+          pip install --upgrade pip
+          pip install pandas
+
+      - name: Run playoff aggregation
+        run: |
+          set -e
+          python scripts/aggregate_playoffs.py
+          echo "------ Vorschau der Ausgabe ------"
+          head -n 20 output/3082897-history-standings/aggregated_playoffs.tsv || true
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit results (skip-ci, kein Loop)
+        run: |
+          set -e
+          git add output/3082897-history-standings/aggregated_playoffs.tsv
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen. Nichts zu committen."
+            exit 0
+          fi
+          git commit -m "Update aggregated playoff standings [skip ci]"
+          git push
