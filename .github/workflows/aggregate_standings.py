@@ -1,0 +1,26 @@
+name: Aggregate Fantasy Standings
+on:
+  push:
+    paths:
+      - "output/3082897-history-standings/*.tsv"
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install pandas
+      - name: Run aggregation script
+        run: python scripts/aggregate_standings.py
+      - name: Commit results
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add output/3082897-history-standings/aggregated_standings.tsv
+          git commit -m "Update aggregated standings" || echo "No changes to commit"
+          git push
