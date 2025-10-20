@@ -51,18 +51,21 @@ def parse_record(rec):
 
 # ------- Load all seasons -------
 rows = []
-tsv_files = sorted(INPUT_DIR.glob("*.tsv"))
-season_re = re.compile(r"(\d{4})\.tsv$")
+# NUR Dateien wie 2015.tsv, 2016.tsv, ...
+tsv_files = sorted(INPUT_DIR.glob("[0-9][0-9][0-9][0-9].tsv"))
+season_re = re.compile(r"^(\d{4})\.tsv$")
 
 if not tsv_files:
-    raise SystemExit(f"No TSV files found in {INPUT_DIR}")
+    raise SystemExit(f"No TSV files found in {INPUT_DIR} matching YYYY.tsv")
 
 for f in tsv_files:
-    m = season_re.search(str(f))
-    season = int(m.group(1)) if m else None
-    # Read as raw strings to normalize manually
-    df = pd.read_csv(f, sep="\t", dtype=str, keep_default_na=False)
+    m = season_re.match(f.name)
+    if not m:
+        print(f"Skipping non-regular-season file: {f}")
+        continue
+    season = int(m.group(1))
 
+    df = pd.read_csv(f, sep="\t", dtype=str, keep_default_na=False)
     # Normalize expected columns (some exports may vary in capitalization)
     colmap = {c.lower(): c for c in df.columns}
     def get(colname):
@@ -80,10 +83,11 @@ for f in tsv_files:
     c_draftpos = get("DraftPosition") or get("Draft Position")
 
     # Sanity checks
-    missing = [("ManagerName", c_manager), ("PointsFor", c_points_for), ("PointsAgainst", c_points_against)]
+    missing = [("PointsFor", c_points_for), ("PointsAgainst", c_points_against)]
     missing_cols = [name for name, real in missing if real is None]
     if missing_cols:
-        raise SystemExit(f"Missing required columns {missing_cols} in file {f}")
+        print(f"Skipping {f} — missing required columns {missing_cols}")
+        continue
 
     tmp = pd.DataFrame({
         "Season": season,
