@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       season:
-        description: "Saison (z.B. 2025). Leer lassen = League.season"
+        description: "Saison (z. B. 2025). Leer = League.season"
         required: false
         default: ""
       weeks:
-        description: 'Wochen (z.B. "1", "1,4,6-9"). Leer = alle (1-16)'
+        description: 'Wochen (z. B. "7" oder "1,4,6-9"). Leer = alle (1-16)'
         required: false
         default: ""
       league_id:
@@ -30,14 +30,14 @@ jobs:
       - name: Install deps
         run: pip install requests
 
-      - name: Scrape selected weeks
+      - name: Run scraper
         env:
-          # Priorität: Input > Secret > leer
+          # Priorität: Input > Secret
           SLEEPER_LEAGUE_ID: ${{ github.event.inputs.league_id != '' && github.event.inputs.league_id || secrets.SLEEPER_LEAGUE_ID }}
           SEASON: ${{ github.event.inputs.season }}
           WEEKS: ${{ github.event.inputs.weeks }}
         run: |
-          python scripts/scrapeSleeperGamecenter.py
+          python scrapeSleeperGamecenter.py
 
       - name: Commit results
         run: |
