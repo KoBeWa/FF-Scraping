@@ -2,13 +2,13 @@ import csv, json
 from pathlib import Path
 from collections import defaultdict
 
-# <<< HIER ist jetzt dein echter Datenpfad >>>
-# Struktur: output/teamgamecenter/<SEASON>/<WEEK>.csv  (z.B. output/teamgamecenter/2015/1.csv)
+# TeamGameCenter: output/teamgamecenter/<SEASON>/<WEEK>.csv
 RAW_DIR = Path("output/teamgamecenter")
-
 OUT_DIR = Path("data/processed/seasons")
 
-# ---------- kleine Utilities ----------
+# History-Standings (TSV):
+HIST_DIR = Path("output/history-standings")  # <season>.tsv und playoffs-<season>.tsv
+
 def safe_float(x):
     if x is None: return None
     s = str(x).strip()
@@ -26,18 +26,15 @@ def extract_pos(p):
     return None
 
 def norm(s: str) -> str:
-    """Normalize header names: lowercase, remove spaces/underscores/dots."""
     return "".join(ch for ch in s.lower() if ch.isalnum())
 
 def idx(header, *candidates):
-    """Find index of a header by trying several candidate names (robust gegen Varianten)."""
     hmap = {norm(h): i for i, h in enumerate(header)}
     for c in candidates:
         k = norm(c)
         if k in hmap: return hmap[k]
     raise KeyError(f"Spalte nicht gefunden. Gesucht: {candidates}; vorhanden: {header}")
 
-# ---------- Kern-Parser ----------
 def parse_team_row(header, row):
     gi_owner     = idx(header, "Owner", "Team", "Manager", "Owner Name")
     gi_opponent  = idx(header, "Opponent", "Opp", "Opponent Team", "Gegner")
@@ -49,14 +46,10 @@ def parse_team_row(header, row):
     total = safe_float(row[gi_total])
     opp_total = safe_float(row[gi_opp_total])
 
-    # Paare: Slot, Points … mehrfach; Starter vs BN unterscheiden
     starters_order = ["QB","RB","RB","WR","WR","TE","W/R","K","DEF"]
     starters, bench = [], []
-
-    # Ab "Rank" nach vorne parsen, bis vor "Total"
     gi_rank = idx(header, "Rank")
-    # Position von "Total" als Ende:
-    end_i = idx(header, "Total", "Total Points", "Pts", "Summe")
+    end_i = gi_total
     i = gi_rank + 1
     slot_buf = None
 
@@ -71,7 +64,6 @@ def parse_team_row(header, row):
                 (bench if slot.upper()=="BN" else starters).append(ent)
                 slot_buf = None
         else:
-            # das ist ein Slot-Feld (QB/RB/WR/TE/W/R/K/DEF/BN)
             slot_buf = (col.strip(), val)
         i += 1
 
@@ -90,7 +82,6 @@ def group_matchups(team_rows):
     matchups = []
     for _, sides in bucket.items():
         if len(sides) != 2: 
-            # ungültig/bye → überspringen
             continue
         a, b = sides
         home, away = (a, b) if a["owner"] <= b["owner"] else (b, a)
@@ -103,18 +94,14 @@ def group_matchups(team_rows):
     return matchups
 
 def parse_week_file(path: Path, season: int, week: int):
-    # unterstützt CSV und TSV
     with path.open("r", encoding="utf-8") as f:
-        # Trennzeichen automatisch: zuerst versuchen wir CSV (Komma),
-        # falls nur 1 Spalte, nehmen wir Tab.
         peek = f.readline()
         f.seek(0)
         reader = csv.reader(f) if (peek.count(",") >= peek.count("\t")) else csv.reader(f, delimiter="\t")
         rows = list(reader)
     header, rows = rows[0], rows[1:]
 
-    # Minimal-Header prüfen
-    _ = idx(header, "Owner", "Team", "Manager")           # throws if not found
+    _ = idx(header, "Owner", "Team", "Manager")
     _ = idx(header, "Opponent", "Opp", "Opponent Team")
     _ = idx(header, "Rank")
     _ = idx(header, "Total", "Total Points", "Pts")
@@ -126,7 +113,7 @@ def parse_week_file(path: Path, season: int, week: int):
             continue
         team = parse_team_row(header, row)
         team_rows.append(team)
-        # Flatten zu players_games
+
         def emit(lineup, is_starter):
             for e in lineup:
                 players.append({
@@ -138,14 +125,96 @@ def parse_week_file(path: Path, season: int, week: int):
         emit(team["bench"], False)
     return team_rows, players
 
+# ---------- NEU: Weekly Standings aus Matchups ----------
+def build_weekly_standings(all_week_matchups):
+    """
+    all_week_matchups: dict[int -> list[matchup dict]]
+    Liefert: [{"week": w, "rows":[{team, wins, losses, pf, pa, pct, rank}...]}...]
+    Sortierung: wins desc, pf desc, team asc
+    """
+    weekly = []
+    for w in sorted(all_week_matchups.keys()):
+        # pro Team die weekly Zahlen (nur diese Woche, nicht kumulativ)
+        table = defaultdict(lambda: {"wins":0,"losses":0,"ties":0,"pf":0.0,"pa":0.0})
+        for m in all_week_matchups[w]:
+            ht, at = m["home_team"], m["away_team"]
+            hp, ap = (m["home_points"] or 0.0), (m["away_points"] or 0.0)
+            table[ht]["pf"] += hp; table[ht]["pa"] += ap
+            table[at]["pf"] += ap; table[at]["pa"] += hp
+            if hp == ap: table[ht]["ties"] += 1; table[at]["ties"] += 1
+            elif hp > ap: table[ht]["wins"] += 1; table[at]["losses"] += 1
+            else:         table[at]["wins"] += 1; table[ht]["losses"] += 1
+
+        rows = []
+        for team, v in table.items():
+            games = v["wins"] + v["losses"] + v["ties"]
+            pct = (v["wins"] + 0.5 * v["ties"]) / games if games else 0.0
+            rows.append({
+                "team": team,
+                "wins": v["wins"], "losses": v["losses"], "ties": v["ties"],
+                "pf": round(v["pf"],2), "pa": round(v["pa"],2),
+                "pct": round(pct,4)
+            })
+
+        rows.sort(key=lambda r: (-r["wins"], -r["pf"], r["team"]))
+        for i, r in enumerate(rows, start=1):
+            r["rank"] = i
+        weekly.append({"week": w, "rows": rows})
+    return weekly
+
+# ---------- NEU: TSV-Parser für RegSeason-Finale & Playoffs ----------
+def read_tsv(path: Path):
+    with path.open("r", encoding="utf-8") as f:
+        rdr = csv.DictReader(f, delimiter="\t")
+        return list(rdr)
+
+def build_regular_final_from_tsv(season: int):
+    tsv = HIST_DIR / f"{season}.tsv"
+    if not tsv.exists(): return None
+    rows = read_tsv(tsv)
+    out = []
+    for r in rows:
+        # erwartete Spalten (dein File): TeamName, RegularSeasonRank, Record, PointsFor, PointsAgainst, PlayoffRank, ManagerName, ...
+        team = r.get("TeamName") or r.get("Team")
+        rank = r.get("RegularSeasonRank") or r.get("Rank")
+        record = r.get("Record") or ""
+        pf = r.get("PointsFor") or r.get("PF") or ""
+        pa = r.get("PointsAgainst") or r.get("PA") or ""
+        out.append({
+            "team": team,
+            "regular_rank": int(rank) if rank else None,
+            "record": record,
+            "pf": float(str(pf).replace(",","")) if pf else None,
+            "pa": float(str(pa).replace(",","")) if pa else None
+        })
+    out.sort(key=lambda x: (x["regular_rank"] if x["regular_rank"] is not None else 999, x["team"] or ""))
+    return out
+
+def build_playoffs_from_tsv(season: int):
+    tsv = HIST_DIR / f"playoffs-{season}.tsv"
+    if not tsv.exists(): return None
+    rows = read_tsv(tsv)
+    out = []
+    for r in rows:
+        out.append({
+            "team": r.get("TeamName") or r.get("Team"),
+            "playoff_rank": int(r.get("PlayoffRank")) if r.get("PlayoffRank") else None,
+            "manager": r.get("ManagerName"),
+            "seed": int(r.get("Seed")) if r.get("Seed") else None,
+            "week15": safe_float(r.get("Week15Pts")),
+            "week16": safe_float(r.get("Week16Pts"))
+        })
+    out.sort(key=lambda x: (x["playoff_rank"] if x["playoff_rank"] is not None else 999, x["team"] or ""))
+    return out
+
 def build_season(season_dir: Path, season: int):
-    # deine Dateien heißen "1.csv", "2.csv" ... (ggf. auch .tsv)
+    # 1) Wochen matchups/players wie bisher
     week_files = sorted(season_dir.glob("*.csv")) + sorted(season_dir.glob("*.tsv"))
     all_matchups, all_players = [], []
     stats = defaultdict(lambda: {"pf":0.0,"pa":0.0,"wins":0,"losses":0,"ties":0})
+    by_week = defaultdict(list)   # ← für weekly standings
 
     for wf in week_files:
-        # Week = Dateiname ohne Endung (z.B. "1")
         try:
             wk = int(wf.stem)
         except ValueError:
@@ -153,9 +222,10 @@ def build_season(season_dir: Path, season: int):
         team_rows, players = parse_week_file(wf, season, wk)
         week_m = group_matchups(team_rows)
         for m in week_m:
-            m["season"] = season; m["week"] = wk
-            m["is_playoff"] = False  # in diesem Pfad sind's Regular-Season-Files
+            m["season"] = season; m["week"] = wk; m["is_playoff"] = False
             all_matchups.append(m)
+            by_week[wk].append(m)
+
             hp, ap = (m["home_points"] or 0.0), (m["away_points"] or 0.0)
             ht, at = m["home_team"], m["away_team"]
             stats[ht]["pf"] += hp; stats[ht]["pa"] += ap
@@ -167,6 +237,7 @@ def build_season(season_dir: Path, season: int):
 
     out = OUT_DIR / f"{season}"
     out.mkdir(parents=True, exist_ok=True)
+
     (out/"matchups.json").write_text(json.dumps(all_matchups, ensure_ascii=False), encoding="utf-8")
     (out/"players_games.json").write_text(json.dumps(all_players, ensure_ascii=False), encoding="utf-8")
 
@@ -178,7 +249,20 @@ def build_season(season_dir: Path, season: int):
              for t,v in sorted(stats.items())]
     (out/"teams.json").write_text(json.dumps(teams, ensure_ascii=False), encoding="utf-8")
 
-    print(f"✓ {season}: {len(all_matchups)} matchups, {len(all_players)} player-games, {len(teams)} teams")
+    # 2) NEU: weekly standings aus by_week
+    weekly = build_weekly_standings(by_week)
+    (out/"weekly_standings.json").write_text(json.dumps(weekly, ensure_ascii=False), encoding="utf-8")
+
+    # 3) NEU: TSVs für finale RegSeason & Playoffs (falls vorhanden)
+    reg_final = build_regular_final_from_tsv(season)
+    if reg_final is not None:
+        (out/"regular_final_standings.json").write_text(json.dumps(reg_final, ensure_ascii=False), encoding="utf-8")
+
+    playoffs = build_playoffs_from_tsv(season)
+    if playoffs is not None:
+        (out/"playoffs_standings.json").write_text(json.dumps(playoffs, ensure_ascii=False), encoding="utf-8")
+
+    print(f"✓ {season}: {len(all_matchups)} matchups, {len(all_players)} player-games, {len(teams)} teams, weekly={len(weekly)}")
 
 def run_all(seasons=range(2015, 2026)):
     for season in seasons:
