@@ -1,5 +1,5 @@
 # scrapeSleeperGamecenter.py
-import os, json, csv, time
+import os, json, csv, time, re
 from collections import defaultdict
 from pathlib import Path
 import requests
@@ -10,6 +10,7 @@ DATA_DIR = Path("./data")
 
 ENV_SEASON = os.getenv("SEASON")  # kann None sein
 LEAGUE_ID = os.getenv("SLEEPER_LEAGUE_ID", "").strip()
+WEEKS_SPEC = os.getenv("WEEKS", "").strip()  # z.B. "1,4,6-9"
 
 # -------------------------- API -------------------------- #
 def _get(url):
@@ -98,6 +99,32 @@ def assign_starters_to_slots(players_db, starters, starters_points):
 def bench_list(all_players, starters):
     s = set(starters); return [pid for pid in all_players if pid not in s]
 
+def parse_weeks(spec):
+    """
+    Akzeptiert:
+      - Kommagetrennte Zahlen: "1,3,5"
+      - Bereiche: "6-9"
+      - Gemischt: "1,3,6-9,12"
+    Gibt sortierte eindeutige Liste zurück. Leer -> None.
+    """
+    if not spec:
+        return None
+    out = set()
+    for part in spec.split(","):
+        part = part.strip()
+        if not part:
+            continue
+        m = re.match(r"^(\d+)-(\d+)$", part)
+        if m:
+            a, b = int(m.group(1)), int(m.group(2))
+            if a <= b:
+                out.update(range(a, b+1))
+            else:
+                out.update(range(b, a+1))
+        else:
+            out.add(int(part))
+    return sorted(x for x in out if 1 <= x <= 16)  # Boundaries wie bisher (1..16)
+
 # ----------------------------- MAIN ----------------------------- #
 def main():
     if not LEAGUE_ID:
@@ -111,17 +138,23 @@ def main():
 
     # Saison bestimmen: ENV > League.season > Fallback
     season_str = ENV_SEASON or league.get("season") or "2022"
-    try: SEASON = int(season_str)
-    except: SEASON = 2022
+    try:
+        SEASON = int(season_str)
+    except:
+        SEASON = 2022
 
-    season_dir = OUT_DIR / str(SEASON)
+    # Wochen bestimmen: ENV WEEKS oder Default 1..16
+    weeks = parse_weeks(WEEKS_SPEC) or list(range(1, 16 + 1))
+
+    # Neuer Output-Pfad: output/teamgamecenter/<SEASON>/<WEEK>.csv
+    season_dir = OUT_DIR / "teamgamecenter" / str(SEASON)
     season_dir.mkdir(parents=True, exist_ok=True)
 
-    # FIX: immer Woche 1..16
-    for week in range(1, 17):
+    for week in weeks:
         week_data = get_matchups(LEAGUE_ID, week)
         if not week_data:
-            # falls es vor Week 16 leer ist (z. B. historische Liga), einfach überspringen
+            # falls es leer ist (z. B. historische Liga/Woche), überspringen
+            print(f"– Keine Daten für Woche {week}. Überspringe.")
             continue
 
         by_mid = defaultdict(list)
@@ -150,8 +183,11 @@ def main():
                 bench = bench_list(players_all, starters)
                 bench.sort(key=lambda pid: -points_for(players_points, pid))
                 bench = bench[:BENCH_SLOTS]
-                bench_pairs = [(fmt_player(players_db, (bench[i] if i < len(bench) else None)),
-                                p(bench[i] if i < len(bench) else None)) for i in range(BENCH_SLOTS)]
+                bench_pairs = [
+                    (fmt_player(players_db, (bench[i] if i < len(bench) else None)),
+                     p(bench[i] if i < len(bench) else None))
+                    for i in range(BENCH_SLOTS)
+                ]
 
                 total = float(entry.get("points", sum(points_for(players_points, pid) for pid in starters)))
                 total = round(total, 2)
@@ -171,7 +207,8 @@ def main():
                     fmt_player(players_db, slots["K"]), p(slots["K"]),
                     fmt_player(players_db, slots["DEF"]), p(slots["DEF"]),
                 ]
-                for name, pts in bench_pairs: row.extend([name, pts])
+                for name, pts in bench_pairs:
+                    row.extend([name, pts])
                 row.extend([total, "", ""])  # Total, Opponent, Opponent Total
                 rows.append({"roster_id": rid, "matchup_id": entry.get("matchup_id"), "row": row, "total": total})
                 totals.append(total)
@@ -198,7 +235,8 @@ def main():
             "BN","Points","BN","Points","BN","Points","BN","Points","BN","Points","BN","Points","BN","Points",
             "Total","Opponent","Opponent Total"
         ]
-        out_path = season_dir / f"gamecenter_week_{week}.csv"
+
+        out_path = season_dir / f"{week}.csv"
         with out_path.open("w", newline="", encoding="utf-8") as f:
             w = csv.writer(f); w.writerow(header)
             for pack in rows: w.writerow(pack["row"])
@@ -206,4 +244,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
