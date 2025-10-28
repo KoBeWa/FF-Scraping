@@ -169,24 +169,65 @@ def read_tsv(path: Path):
         return list(rdr)
 
 def build_regular_final_from_tsv(season: int):
+    """
+    Liest output/history-standings/<season>.tsv mit Spalten:
+    TeamName, RegularSeasonRank, Record, PointsFor, PointsAgainst, PlayoffRank, ManagerName, Moves, Trades, DraftPosition
+    und gibt eine sortierte Liste von Dicts zurück.
+    """
     tsv = HIST_DIR / f"{season}.tsv"
-    if not tsv.exists(): return None
+    if not tsv.exists():
+        return None
+
+    def _safe_float_num(s):
+        if s is None or str(s).strip() == "":
+            return None
+        # entfernt Tausendertrenn-Kommas, behält Dezimalpunkt
+        return float(str(s).replace(",", ""))
+
     rows = read_tsv(tsv)
     out = []
     for r in rows:
-        # erwartete Spalten (dein File): TeamName, RegularSeasonRank, Record, PointsFor, PointsAgainst, PlayoffRank, ManagerName, ...
-        team = r.get("TeamName") or r.get("Team")
-        rank = r.get("RegularSeasonRank") or r.get("Rank")
-        record = r.get("Record") or ""
-        pf = r.get("PointsFor") or r.get("PF") or ""
-        pa = r.get("PointsAgainst") or r.get("PA") or ""
+        team   = r.get("TeamName")
+        rank   = r.get("RegularSeasonRank")
+        record = r.get("Record")
+        pf     = _safe_float_num(r.get("PointsFor"))
+        pa     = _safe_float_num(r.get("PointsAgainst"))
+
+        playoff_rank = r.get("PlayoffRank")
+        manager      = r.get("ManagerName")
+        moves        = r.get("Moves")
+        trades       = r.get("Trades")
+        draft_pos    = r.get("DraftPosition")
+
+        # optional: Record in W/L/T zerlegen
+        w = l = t = None
+        if isinstance(record, str) and "-" in record:
+            parts = record.split("-")
+            if len(parts) >= 2:
+                try: w = int(parts[0])
+                except: pass
+                try: l = int(parts[1])
+                except: pass
+                if len(parts) >= 3:
+                    try: t = int(parts[2])
+                    except: pass
+
         out.append({
             "team": team,
-            "regular_rank": int(rank) if rank else None,
+            "regular_rank": int(rank) if rank not in (None, "",) else None,
             "record": record,
-            "pf": float(str(pf).replace(",","")) if pf else None,
-            "pa": float(str(pa).replace(",","")) if pa else None
+            "wins": w, "losses": l, "ties": t,
+            "pf": pf, "pa": pa,
+
+            # Zusatzfelder aus TSV:
+            "playoff_rank": int(playoff_rank) if playoff_rank not in (None,"") else None,
+            "manager": manager,
+            "moves": int(moves) if moves not in (None,"") else None,
+            "trades": int(trades) if trades not in (None,"") else None,
+            "draft_position": int(draft_pos) if draft_pos not in (None,"") else None,
         })
+
+    # sortiert nach RegularSeasonRank, dann Teamname
     out.sort(key=lambda x: (x["regular_rank"] if x["regular_rank"] is not None else 999, x["team"] or ""))
     return out
 
