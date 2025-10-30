@@ -12,6 +12,45 @@ ENV_SEASON = os.getenv("SEASON")  # kann None sein
 LEAGUE_ID = os.getenv("SLEEPER_LEAGUE_ID", "").strip()
 WEEKS_SPEC = os.getenv("WEEKS", "").strip()  # z.B. "1,4,6-9"
 
+# -------------------------- Alias-Mapping -------------------------- #
+def _norm(s: str) -> str:
+    """einheitliche Normalisierung: lower + nur a-z0-9"""
+    return re.sub(r"[^a-z0-9]+", "", (s or "").lower())
+
+# Alle Schlüssel in *normalisierter* Form ablegen.
+_ALIAS_MAP = {
+    _norm("Dreggsverein"): "Benni",
+    _norm("ShamH"): "Benni",
+
+    _norm("Talahon United"): "Simi",
+    _norm("Simon2307"): "Simi",
+
+    _norm("Snatchville Lubricators"): "Kessi",
+    _norm("kesso"): "Kessi",
+
+    _norm("I_hate_Kowa"): "Tommy",
+    _norm("theBIGLebronski"): "Tommy",
+
+    _norm("Extrem durstige Welse"): "Ritz",
+    _norm("LosSausages"): "Ritz",
+
+    _norm("Suckme Mourdock Network"): "Marv",
+    _norm("lancemourdock"): "Marv",
+
+    _norm("oG United"): "Erik",
+    _norm("Jottage"): "Erik",
+
+    _norm("Juschka"): "Juschka",   # sowohl Team- als auch Displayname gleich
+}
+
+def alias_for(name: str) -> str:
+    """
+    Liefert den Alias für einen gegebenen Team-/Display-/Usernamen.
+    Fallback: ursprünglicher Name, falls nicht gemappt.
+    """
+    key = _norm(name or "")
+    return _ALIAS_MAP.get(key, name or "")
+
 # -------------------------- API -------------------------- #
 def _get(url):
     r = requests.get(url, timeout=30)
@@ -54,18 +93,16 @@ def points_for(mapping, pid):
     except Exception: return 0.0
 
 def owner_maps(users, rosters):
-    """
-    Liefert:
-      - rid_to_owner: roster_id -> owner_id
-      - owner_to_display: owner_id -> ANZEIGENAME DES BESITZERS (display_name/username)
-    Wichtig: Wir nehmen NICHT den Teamnamen, sondern den Manager/Besitzer.
-    """
     rid_to_owner = {r["roster_id"]: r.get("owner_id") for r in rosters}
-    owner_to_display = {}
+    owner_to_name = {}
     for u in users:
-        display = (u.get("display_name") or u.get("username") or "").strip() or "Unknown"
-        owner_to_display[u["user_id"]] = display
-    return rid_to_owner, owner_to_display
+        # wir liefern hier *noch* den Originalnamen,
+        # mappen aber *später* in alias_for(owner)
+        team_name = (u.get("metadata", {}) or {}).get("team_name")
+        display = u.get("display_name") or "Unknown"
+        # wenn Teamname existiert: bevorzugen
+        owner_to_name[u["user_id"]] = team_name or display
+    return rid_to_owner, owner_to_name
 
 # Slots fixieren wie gewünscht
 BENCH_SLOTS = 7
@@ -139,7 +176,7 @@ def main():
     users      = get_league_users(LEAGUE_ID)
     rosters    = get_league_rosters(LEAGUE_ID)
     players_db = get_players_cached()
-    rid_to_owner, owner_to_display = owner_maps(users, rosters)
+    rid_to_owner, owner_to_name = owner_maps(users, rosters)
 
     # Saison bestimmen: ENV > League.season > Fallback
     season_str = ENV_SEASON or league.get("season") or "2022"
@@ -172,8 +209,11 @@ def main():
             for entry in teams:
                 rid = entry["roster_id"]
                 owner_id = rid_to_owner.get(rid)
-                # >>> HIER: Besitzer-/Managername statt Teamname
-                owner = owner_to_display.get(owner_id, f"Roster {rid}")
+
+                # Ursprungslabel (Teamname oder Displayname) …
+                owner_raw = owner_to_name.get(owner_id, f"Roster {rid}")
+                # … in Alias umwandeln
+                owner = alias_for(owner_raw)
 
                 starters = entry.get("starters") or []
                 players_all = entry.get("players") or []
@@ -198,10 +238,10 @@ def main():
                 total = round(total, 2)
 
                 team_total_by_roster[rid] = total
-                team_owner_by_roster[rid] = owner  # wichtig: Besitzername merken
+                team_owner_by_roster[rid] = owner  # bereits aliasiert
 
                 row = [
-                    owner, "",  # Owner (Manager), Rank
+                    owner, "",  # Owner (Alias), Rank
                     fmt_player(players_db, slots["QB"]), p(slots["QB"]),
                     fmt_player(players_db, slots["RB"][0]), p(slots["RB"][0]),
                     fmt_player(players_db, slots["RB"][1]), p(slots["RB"][1]),
@@ -214,7 +254,7 @@ def main():
                 ]
                 for name, pts in bench_pairs:
                     row.extend([name, pts])
-                row.extend([total, "", ""])  # Total, Opponent, Opponent Total
+                row.extend([total, "", ""])  # Total, Opponent(Alias), Opponent Total
                 rows.append({"roster_id": rid, "matchup_id": entry.get("matchup_id"), "row": row, "total": total})
                 totals.append(total)
 
@@ -228,7 +268,8 @@ def main():
             opps = [x for x in rows if x["matchup_id"] == mid and x["roster_id"] != rid]
             if opps:
                 opp = opps[0]
-                row[-2] = team_owner_by_roster.get(opp["roster_id"], "")  # Gegner: ebenfalls Besitzername
+                # Opponent-Name ist bereits aliasiert, weil team_owner_by_roster das Alias speichert
+                row[-2] = team_owner_by_roster.get(opp["roster_id"], "")
                 row[-1] = team_total_by_roster.get(opp["roster_id"], "")
             else:
                 row[-2] = "—"; row[-1] = ""
@@ -249,3 +290,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
