@@ -54,13 +54,18 @@ def points_for(mapping, pid):
     except Exception: return 0.0
 
 def owner_maps(users, rosters):
+    """
+    Liefert:
+      - rid_to_owner: roster_id -> owner_id
+      - owner_to_display: owner_id -> ANZEIGENAME DES BESITZERS (display_name/username)
+    Wichtig: Wir nehmen NICHT den Teamnamen, sondern den Manager/Besitzer.
+    """
     rid_to_owner = {r["roster_id"]: r.get("owner_id") for r in rosters}
-    owner_to_name = {}
+    owner_to_display = {}
     for u in users:
-        team_name = (u.get("metadata", {}) or {}).get("team_name")
-        display = u.get("display_name") or "Unknown"
-        owner_to_name[u["user_id"]] = team_name or display
-    return rid_to_owner, owner_to_name
+        display = (u.get("display_name") or u.get("username") or "").strip() or "Unknown"
+        owner_to_display[u["user_id"]] = display
+    return rid_to_owner, owner_to_display
 
 # Slots fixieren wie gewünscht
 BENCH_SLOTS = 7
@@ -134,7 +139,7 @@ def main():
     users      = get_league_users(LEAGUE_ID)
     rosters    = get_league_rosters(LEAGUE_ID)
     players_db = get_players_cached()
-    rid_to_owner, owner_to_name = owner_maps(users, rosters)
+    rid_to_owner, owner_to_display = owner_maps(users, rosters)
 
     # Saison bestimmen: ENV > League.season > Fallback
     season_str = ENV_SEASON or league.get("season") or "2022"
@@ -153,7 +158,6 @@ def main():
     for week in weeks:
         week_data = get_matchups(LEAGUE_ID, week)
         if not week_data:
-            # falls es leer ist (z. B. historische Liga/Woche), überspringen
             print(f"– Keine Daten für Woche {week}. Überspringe.")
             continue
 
@@ -168,7 +172,8 @@ def main():
             for entry in teams:
                 rid = entry["roster_id"]
                 owner_id = rid_to_owner.get(rid)
-                owner = owner_to_name.get(owner_id, f"Roster {rid}")
+                # >>> HIER: Besitzer-/Managername statt Teamname
+                owner = owner_to_display.get(owner_id, f"Roster {rid}")
 
                 starters = entry.get("starters") or []
                 players_all = entry.get("players") or []
@@ -193,10 +198,10 @@ def main():
                 total = round(total, 2)
 
                 team_total_by_roster[rid] = total
-                team_owner_by_roster[rid] = owner
+                team_owner_by_roster[rid] = owner  # wichtig: Besitzername merken
 
                 row = [
-                    owner, "",  # Owner, Rank
+                    owner, "",  # Owner (Manager), Rank
                     fmt_player(players_db, slots["QB"]), p(slots["QB"]),
                     fmt_player(players_db, slots["RB"][0]), p(slots["RB"][0]),
                     fmt_player(players_db, slots["RB"][1]), p(slots["RB"][1]),
@@ -223,7 +228,7 @@ def main():
             opps = [x for x in rows if x["matchup_id"] == mid and x["roster_id"] != rid]
             if opps:
                 opp = opps[0]
-                row[-2] = team_owner_by_roster.get(opp["roster_id"], "")
+                row[-2] = team_owner_by_roster.get(opp["roster_id"], "")  # Gegner: ebenfalls Besitzername
                 row[-1] = team_total_by_roster.get(opp["roster_id"], "")
             else:
                 row[-2] = "—"; row[-1] = ""
